@@ -11,6 +11,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -28,10 +30,25 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
     @Id
     @Column(nullable = false)
-    String username;
-    String password;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+
     @Enumerated(EnumType.STRING)
     Role role;
+
+    public void generateUsernameForAdmin() {
+        if (this.role == Role.ADMINISTRATOR) {
+            this.username = "admin_" + this.id;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

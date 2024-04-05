@@ -1,4 +1,5 @@
 package com.main.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,18 +30,20 @@ public class SecurityConfig {
                 return http
                                 .csrf(csrf -> csrf
                                                 .disable())
-                                .cors(cors ->{
+                                .cors(cors -> {
                                 })
                                 .authorizeHttpRequests(authRequest -> authRequest
                                                 .requestMatchers("/auth/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "api/config/init").permitAll()
-                                                .requestMatchers("/api/manager/**").permitAll()/* hasAuthority("ADMIN") */
+                                                .requestMatchers("/api/manager/**").permitAll()/*
+                                                                                                * hasAuthority("ADMIN")
+                                                                                                */
                                                 .requestMatchers("/api/utils/**").permitAll()/*
                                                                                               * hasAnyAuthority("ADMIN",
                                                                                               * "USER")
                                                                                               */
                                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
-                                                                "/swagger-ui.html","**")
+                                                                "/swagger-ui.html", "**")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManager -> sessionManager
@@ -64,4 +67,3 @@ public class SecurityConfig {
                 return source;
         }
 }
-
