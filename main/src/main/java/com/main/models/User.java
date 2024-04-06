@@ -42,7 +42,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
 
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
 
     public void generateUsernameForAdmin() {
         if (this.role == Role.ADMINISTRATOR) {
