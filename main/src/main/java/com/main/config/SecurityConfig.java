@@ -33,15 +33,8 @@ public class SecurityConfig {
                                 .cors(cors -> {
                                 })
                                 .authorizeHttpRequests(authRequest -> authRequest
-                                                .requestMatchers("/auth/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST, "api/config/init").permitAll()
-                                                .requestMatchers("/api/manager/**").permitAll()/*
-                                                                                                * hasAuthority("ADMIN")
-                                                                                                */
-                                                .requestMatchers("/api/utils/**").permitAll()/*
-                                                                                              * hasAnyAuthority("ADMIN",
-                                                                                              * "USER")
-                                                                                              */
+                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .requestMatchers("api/register/**").hasAuthority("ADMINISTRATOR")
                                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
                                                                 "/swagger-ui.html", "**")
                                                 .permitAll()
