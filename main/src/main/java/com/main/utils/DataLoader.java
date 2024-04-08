@@ -7,6 +7,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import java.util.List;
+
+import com.main.dtos.AdminRequest;
 import com.main.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +27,11 @@ public class DataLoader implements CommandLineRunner {
             List<AdminPassword> adminPasswords = objectMapper.readValue(resource.getInputStream(),
                     new TypeReference<List<AdminPassword>>() {
                     });
-            adminPasswords.forEach(admin -> userService.registerAdministrator(admin.getPassword()));
+            adminPasswords.forEach(admin -> {
+                AdminRequest request = new AdminRequest();
+                request.setPassword(admin.getPassword());
+                userService.registerAdministrator(request);
+            });
         }
     }
 

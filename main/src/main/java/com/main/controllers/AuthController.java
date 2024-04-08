@@ -12,7 +12,6 @@ import com.main.dtos.LoginRequest;
 import com.main.dtos.StandardResponseDTO;
 import com.main.services.AuthService;
 
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,9 +23,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<StandardResponseDTO> login(@Validated @RequestBody LoginRequest request) {
-        AuthResponse authResponse = authService.login(request);
-        StandardResponseDTO successResponse = new StandardResponseDTO().fullSuccess(authResponse);
-        return ResponseEntity.ok(successResponse);
+        try {
+            AuthResponse authResponse = authService.login(request);
+            StandardResponseDTO successResponse = new StandardResponseDTO().fullSuccess(authResponse);
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            StandardResponseDTO successResponse = new StandardResponseDTO().failSuccess("Credenciales Invalidas");
+            return ResponseEntity.ok(successResponse);
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.main.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
 import com.main.models.DocumentType;
 import com.main.models.Employee;
@@ -25,7 +26,7 @@ public class UserService {
 
     // Metodo para registrar un usuario administrador
     @Transactional
-    public User registerAdministrator(String password) {
+    public User registerAdministrator(AdminRequest request) {
         // Generar un username base.
         String baseUsername = "admin_";
 
@@ -36,7 +37,7 @@ public class UserService {
         User adminUser = new User();
         adminUser.setUsername(uniqueUsername);
         adminUser.setRole(Role.ADMINISTRATOR);
-        adminUser.setPassword(passwordEncoder.encode(password));
+        adminUser.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // Guardar el usuario con el username único
         return userRepository.save(adminUser);
