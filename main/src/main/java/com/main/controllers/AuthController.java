@@ -31,7 +31,6 @@ public class AuthController {
             StandardResponseDTO successResponse = new StandardResponseDTO().failSuccess("Credenciales Invalidas");
             return ResponseEntity.ok(successResponse);
         }
-
     }
 
 }

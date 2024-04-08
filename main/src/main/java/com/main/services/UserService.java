@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
+import com.main.dtos.StudentRequest;
 import com.main.models.DocumentType;
 import com.main.models.Employee;
 import com.main.models.Role;
+import com.main.models.Student;
 import com.main.models.User;
 import com.main.repositories.EmployeeRepository;
+import com.main.repositories.StudentRepository;
 import com.main.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
+    private final StudentRepository studentRepository;
 
     // Metodo para registrar un usuario administrador
     @Transactional
@@ -84,5 +88,33 @@ public class UserService {
         employee.setFirstLastName(employeeRequest.getFirstLastName());
         employee.setMiddleLastName(employeeRequest.getMiddleLastName());
         return employee;
+    }
+
+    // Registrar un estudiante
+    @Transactional
+    public Student registerStudent(StudentRequest request) {
+        // Crear usuario asociado a user
+        User user = new User();
+        user.setUsername(String.valueOf(request.getCodeStudent()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.STUDENT);
+        userRepository.save(user);
+        Student student = convertToStudent(request);
+        return studentRepository.save(student);
+    }
+
+    private Student convertToStudent(StudentRequest request) {
+        Student student = new Student();
+        student.setDocumentType(DocumentType.valueOf(request.getDocumentType().toUpperCase()));
+        student.setDocument(request.getDocument());
+        student.setEmail(request.getEmail());
+        student.setFirstName(request.getFirstName());
+        student.setMiddleName(request.getMiddleName());
+        student.setFirstLastName(request.getFirstLastName());
+        student.setMiddleLastName(request.getMiddleLastName());
+        student.setCodeStudent(request.getCodeStudent());
+        student.setDegreeProgram(request.getDegreeProgram());
+        student.setFaculty(request.getFaculty());
+        return student;
     }
 }

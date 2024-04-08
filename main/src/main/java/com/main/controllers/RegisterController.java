@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
 import com.main.dtos.StandardResponseDTO;
+import com.main.dtos.StudentRequest;
 import com.main.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -38,9 +39,28 @@ public class RegisterController {
 
     @PostMapping("/employee")
     public ResponseEntity<StandardResponseDTO> registerEmployee(@Validated @RequestBody EmployeeRequest request) {
-        userService.registerEmployee(request);
-        StandardResponseDTO successResponse = new StandardResponseDTO()
-                .fullSuccess("Usuario empleado registrado con exito");
-        return ResponseEntity.ok(successResponse);
+        try {
+            userService.registerEmployee(request);
+            StandardResponseDTO successResponse = new StandardResponseDTO()
+                    .fullSuccess("Usuario empleado registrado con exito");
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            StandardResponseDTO successResponse = new StandardResponseDTO()
+                    .failSuccess("No fue posible registrar el estudiante");
+            return ResponseEntity.ok(successResponse);
+        }
+    }
+
+    @PostMapping("/student")
+    public ResponseEntity<StandardResponseDTO> registerStudent(@Validated @RequestBody StudentRequest request) {
+        try {
+            StandardResponseDTO successResponse = new StandardResponseDTO()
+                    .fullSuccess("Estudiante registrado con exito");
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            StandardResponseDTO successResponse = new StandardResponseDTO()
+                    .failSuccess("No fue posible registrar el estudiante");
+            return ResponseEntity.ok(successResponse);
+        }
     }
 }

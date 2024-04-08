@@ -35,13 +35,13 @@ public class Student {
     @Column
     private String middleLastName;
 
-    @Column
-    private String codeStudent;
+    @Column(nullable = false, unique = true)
+    private Long codeStudent;
     
-    @Column
+    @Column(nullable = false, unique = true)
     private String faculty;
     
-    @Column
+    @Column(nullable = false,unique = true)
     private String degreeProgram;
 
     @OneToOne(fetch = FetchType.LAZY)
