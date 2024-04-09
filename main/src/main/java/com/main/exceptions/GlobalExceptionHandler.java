@@ -2,13 +2,16 @@ package com.main.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
+
+import com.main.dtos.StandardResponseDTO;
+
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -16,29 +19,30 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        System.out.println("Entrando al manejador de excepciones de validación");
-
-        // Creación de la estructura de errores
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
+    public ResponseEntity<StandardResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> errors = new HashMap<>();
+        errors.put("timestamp", Instant.now());
+        errors.put("status", HttpStatus.BAD_REQUEST.value());
+        errors.put("errors", ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)
-                .collect(Collectors.toList());
-
-        // Creando el cuerpo interno con los detalles de error
-        Map<String, Object> errorDetails = new LinkedHashMap<>();
-        errorDetails.put("timestamp", LocalDateTime.now());
-        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-        errorDetails.put("errors", errors);
-
-        // Creando el cuerpo externo con la estructura deseada
-        Map<String, Object> responseBody = new LinkedHashMap<>();
-        responseBody.put("success", false);
-        responseBody.put("data", errorDetails);
-        responseBody.put("count", errors.size());
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+                .collect(Collectors.toList()));
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setSuccess(false);
+        response.setData(errors);
+        response.setCount(ex.getErrorCount());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<StandardResponseDTO> handleBadCredentialsException(BadCredentialsException ex) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", Instant.now());
+        errorDetails.put("status", HttpStatus.UNAUTHORIZED.value());
+        errorDetails.put("errors", "Credenciales inválidas. Por favor, intente nuevamente.");
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setData(errorDetails);
+        response.setSuccess(false);
+        response.setCount(1);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

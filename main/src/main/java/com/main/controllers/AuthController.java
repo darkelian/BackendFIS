@@ -23,14 +23,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<StandardResponseDTO> login(@Validated @RequestBody LoginRequest request) {
-        try {
-            AuthResponse authResponse = authService.login(request);
-            StandardResponseDTO successResponse = new StandardResponseDTO().fullSuccess(authResponse);
-            return ResponseEntity.ok(successResponse);
-        } catch (Exception e) {
-            StandardResponseDTO successResponse = new StandardResponseDTO().failSuccess("Credenciales Invalidas");
-            return ResponseEntity.ok(successResponse);
-        }
+        AuthResponse authResponse = authService.login(request);
+        StandardResponseDTO successResponse = new StandardResponseDTO().fullSuccess(authResponse);
+        return ResponseEntity.ok(successResponse);
     }
 
 }

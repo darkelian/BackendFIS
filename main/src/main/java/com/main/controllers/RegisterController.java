@@ -26,41 +26,24 @@ public class RegisterController {
 
     @PostMapping("/administrator")
     public ResponseEntity<StandardResponseDTO> registerAdministrator(@Validated @RequestBody AdminRequest request) {
-        try {
-            userService.registerAdministrator(request);
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .fullSuccess("Usuario administrador registrado con exito");
-            return ResponseEntity.ok(successResponse);
-        } catch (Exception ex) {
-            return ResponseEntity
-                    .ok(new StandardResponseDTO().failSuccess("No fue posible registrar un nuevo administrador"));
-        }
+        userService.registerAdministrator(request);
+        StandardResponseDTO successResponse = new StandardResponseDTO()
+                .fullSuccess("Usuario administrador registrado con exito");
+        return ResponseEntity.ok(successResponse);
     }
 
     @PostMapping("/employee")
     public ResponseEntity<StandardResponseDTO> registerEmployee(@Validated @RequestBody EmployeeRequest request) {
-        try {
-            userService.registerEmployee(request);
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .fullSuccess("Usuario empleado registrado con exito");
-            return ResponseEntity.ok(successResponse);
-        } catch (Exception e) {
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .failSuccess("No fue posible registrar el estudiante");
-            return ResponseEntity.ok(successResponse);
-        }
+        userService.registerEmployee(request);
+        StandardResponseDTO successResponse = new StandardResponseDTO()
+                .fullSuccess("Usuario empleado registrado con exito");
+        return ResponseEntity.ok(successResponse);
     }
 
     @PostMapping("/student")
     public ResponseEntity<StandardResponseDTO> registerStudent(@Validated @RequestBody StudentRequest request) {
-        try {
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .fullSuccess("Estudiante registrado con exito");
-            return ResponseEntity.ok(successResponse);
-        } catch (Exception e) {
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .failSuccess("No fue posible registrar el estudiante");
-            return ResponseEntity.ok(successResponse);
-        }
+        StandardResponseDTO successResponse = new StandardResponseDTO()
+                .fullSuccess("Estudiante registrado con exito");
+        return ResponseEntity.ok(successResponse);
     }
 }
