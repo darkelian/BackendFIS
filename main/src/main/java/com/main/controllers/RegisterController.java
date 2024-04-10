@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
+import com.main.dtos.ServiceUnitRequest;
 import com.main.dtos.StandardResponseDTO;
 import com.main.dtos.StudentRequest;
 import com.main.services.UserService;
@@ -42,8 +43,17 @@ public class RegisterController {
 
     @PostMapping("/student")
     public ResponseEntity<StandardResponseDTO> registerStudent(@Validated @RequestBody StudentRequest request) {
+        userService.registerStudent(request);
         StandardResponseDTO successResponse = new StandardResponseDTO()
                 .fullSuccess("Estudiante registrado con exito");
+        return ResponseEntity.ok(successResponse);
+    }
+
+    @PostMapping("/unit")
+    public ResponseEntity<StandardResponseDTO> registerServiceUnit(@Validated @RequestBody ServiceUnitRequest request) {
+        userService.registerServiceUnit(request);
+        StandardResponseDTO successResponse = new StandardResponseDTO()
+                .fullSuccess("Unidad de servicio registrada con exito");
         return ResponseEntity.ok(successResponse);
     }
 }

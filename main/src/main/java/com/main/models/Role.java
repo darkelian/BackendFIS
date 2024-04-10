@@ -1,5 +1,5 @@
 package com.main.models;
 
 public enum Role {
-    ADMINISTRATOR, STUDENT, EMPLOYEE
+    ADMINISTRATOR, STUDENT, EMPLOYEE, UNIT
 }

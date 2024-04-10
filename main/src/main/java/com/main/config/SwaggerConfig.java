@@ -29,8 +29,8 @@ public class SwaggerConfig {
                                         .in(SecurityScheme.In.HEADER)
                                         .scheme(scheme)))
                 .info(new Info()
-                        .title("Case Management Service")
-                        .description("Claim Event Information")
-                        .version("1.0"));
+                        .title("Servicios Backend de Integraservicios")
+                        .description("Documentación detallada de los servicios y esquemas para los modulos de Integraservicios")
+                        .version("1.0.1"));
     }
 }

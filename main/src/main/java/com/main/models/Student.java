@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "students", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = "students")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,10 @@ public class Student {
     @Column(nullable = false, unique = true)
     private Long codeStudent;
     
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String faculty;
     
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String degreeProgram;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -5,13 +5,16 @@ import org.springframework.stereotype.Service;
 
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
+import com.main.dtos.ServiceUnitRequest;
 import com.main.dtos.StudentRequest;
 import com.main.models.DocumentType;
 import com.main.models.Employee;
 import com.main.models.Role;
+import com.main.models.ServiceUnit;
 import com.main.models.Student;
 import com.main.models.User;
 import com.main.repositories.EmployeeRepository;
+import com.main.repositories.ServiceUnityRepository;
 import com.main.repositories.StudentRepository;
 import com.main.repositories.UserRepository;
 
@@ -27,24 +30,22 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final ServiceUnityRepository serviceUnityRepository;
+
+    // Metodo generico para la creación de usuarios
+    private User createUser(String username, String password, Role role) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+        return userRepository.save(user);
+    }
 
     // Metodo para registrar un usuario administrador
     @Transactional
     public User registerAdministrator(AdminRequest request) {
-        // Generar un username base.
-        String baseUsername = "admin_";
-
-        // Generar un username único a partir del base
-        String uniqueUsername = generateUniqueUsername(baseUsername);
-
-        // Crear el nuevo User con todos los detalles configurados, incluido el username
-        User adminUser = new User();
-        adminUser.setUsername(uniqueUsername);
-        adminUser.setRole(Role.ADMINISTRATOR);
-        adminUser.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        // Guardar el usuario con el username único
-        return userRepository.save(adminUser);
+        String uniqueUsername = generateUniqueUsername("admin_");
+        return createUser(uniqueUsername, request.getPassword(), Role.ADMINISTRATOR);
     }
 
     private String generateUniqueUsername(String base) {
@@ -62,19 +63,10 @@ public class UserService {
 
     // Metodo para generar un usuario Empleado
     @Transactional
-    public Employee registerEmployee(EmployeeRequest employeeRequest) {
-        // Crear el usuario asociado al empleado
-        User user = new User();
-        user.setUsername(String.valueOf(employeeRequest.getDocument()));
-        user.setPassword(passwordEncoder.encode(employeeRequest.getPassword()));
-        user.setRole(Role.EMPLOYEE); // Asegúrate de que Role.EMPLOYEE existe en tu enum Role
-        userRepository.save(user);
-
-        // Convertir EmployeeRequest a la entidad Employee
-        Employee employee = convertToEmployee(employeeRequest);
+    public Employee registerEmployee(EmployeeRequest request) {
+        User user = createUser(String.valueOf(request.getDocument()), request.getPassword(), Role.EMPLOYEE);
+        Employee employee = convertToEmployee(request);
         employee.setUser(user);
-
-        // Asignar el usuario creado al empleado y guardar el empleado
         return employeeRepository.save(employee);
     }
 
@@ -93,13 +85,9 @@ public class UserService {
     // Registrar un estudiante
     @Transactional
     public Student registerStudent(StudentRequest request) {
-        // Crear usuario asociado a user
-        User user = new User();
-        user.setUsername(String.valueOf(request.getCodeStudent()));
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.STUDENT);
-        userRepository.save(user);
+        User user = createUser(String.valueOf(request.getCodeStudent()), request.getPassword(), Role.STUDENT);
         Student student = convertToStudent(request);
+        student.setUser(user);
         return studentRepository.save(student);
     }
 
@@ -116,5 +104,23 @@ public class UserService {
         student.setDegreeProgram(request.getDegreeProgram());
         student.setFaculty(request.getFaculty());
         return student;
+    }
+
+    // Registar una Unidad de servicio
+    public ServiceUnit registerServiceUnit(ServiceUnitRequest request) {
+        User user = new User();
+        user.setUsername(request.getName());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.UNIT);
+        userRepository.save(user);
+        ServiceUnit serviceUnit = convertToUnit(request);
+        serviceUnit.setUser(user);
+        return serviceUnityRepository.save(serviceUnit);
+    }
+
+    public ServiceUnit convertToUnit(ServiceUnitRequest request) {
+        ServiceUnit serviceUnit = new ServiceUnit();
+        serviceUnit.setName(request.getName());
+        return serviceUnit;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.main.dtos.StandardResponseDTO;
 
@@ -44,5 +45,19 @@ public class GlobalExceptionHandler {
         response.setSuccess(false);
         response.setCount(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardResponseDTO> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Map<String, Object> errors = new HashMap<>();
+        errors.put("timestamp", Instant.now());
+        errors.put("status", HttpStatus.CONFLICT.value());
+        errors.put("errors", ex.getMostSpecificCause().getMessage());
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setSuccess(false);
+        response.setData(errors);
+        response.setCount(1);
+
+        return new ResponseEntity<>(response, HttpStatus.OK); // Devuelve un estado HTTP de conflicto
     }
 }
