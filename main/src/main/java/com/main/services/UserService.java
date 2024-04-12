@@ -2,6 +2,7 @@ package com.main.services;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
@@ -18,7 +19,6 @@ import com.main.repositories.ServiceUnityRepository;
 import com.main.repositories.StudentRepository;
 import com.main.repositories.UserRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
