@@ -1,0 +1,12 @@
+[
+  {
+    "documentType": "CC",
+    "document": 1000320241,
+    "email": "juan.perez@example.com",
+    "firstName": "Juan",
+    "middleName": "Carlos",
+    "firstLastName": "Perez",
+    "middleLastName": "Gomez",
+    "password": "strongPassword123"
+  }
+]

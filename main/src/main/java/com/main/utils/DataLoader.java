@@ -35,6 +35,7 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
+    // Modelos para la carga de datos
     static class AdminPassword {
         private String password;
 
