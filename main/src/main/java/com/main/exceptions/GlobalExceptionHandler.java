@@ -58,6 +58,6 @@ public class GlobalExceptionHandler {
         response.setData(errors);
         response.setCount(1);
 
-        return new ResponseEntity<>(response, HttpStatus.OK); // Devuelve un estado HTTP de conflicto
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
