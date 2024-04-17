@@ -3,6 +3,7 @@ package com.main.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.main.dtos.StandardResponseDTO;
+
+
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -34,6 +37,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<StandardResponseDTO> handleAuthenticationException(AuthenticationException ex) {
+        Map<String, Object> errors = new HashMap<>();
+        errors.put("timestamp", Instant.now());
+        errors.put("status", HttpStatus.UNAUTHORIZED.value());
+        errors.put("errors", ex.getMessage());
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setSuccess(false);
+        response.setData(errors);
+        response.setCount(1);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<StandardResponseDTO> handleBadCredentialsException(BadCredentialsException ex) {
         Map<String, Object> errorDetails = new HashMap<>();
@@ -48,7 +64,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardResponseDTO> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ResponseEntity<StandardResponseDTO> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex) {
         Map<String, Object> errors = new HashMap<>();
         errors.put("timestamp", Instant.now());
         errors.put("status", HttpStatus.CONFLICT.value());
