@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.main.dtos.StudentResponse;
-import com.main.repositories.StudentRepository;
+import com.main.dtos.EmployeeResponse;
+import com.main.repositories.EmployeeRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,13 +15,14 @@ import lombok.Data;
 @Data
 @Service
 @AllArgsConstructor
-public class StudentService {
-    private final StudentRepository studentRepository;
+public class EmployeeService {
+    private final EmployeeRepository employeeRepository;
 
     @Transactional(readOnly = true)
-    public List<StudentResponse> getAllStudents() {
-        return studentRepository.findAll().stream()
-                .map(StudentResponse::new)
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeRepository.findAll().stream()
+                .map(EmployeeResponse::new) // Convertir cada Employee a EmployeeResponse
                 .collect(Collectors.toList());
     }
+
 }
