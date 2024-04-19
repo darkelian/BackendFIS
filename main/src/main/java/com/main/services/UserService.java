@@ -109,7 +109,7 @@ public class UserService {
     // Registar una Unidad de servicio
     public ServiceUnit registerServiceUnit(ServiceUnitRequest request) {
         User user = new User();
-        user.setUsername(request.getName());
+        user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.UNIT);
         userRepository.save(user);
@@ -120,7 +120,8 @@ public class UserService {
 
     public ServiceUnit convertToUnit(ServiceUnitRequest request) {
         ServiceUnit serviceUnit = new ServiceUnit();
-        serviceUnit.setName(request.getName());
+        serviceUnit.setName(request.getUsername());
+        serviceUnit.setGranularityInMinutes(request.getGranularityInMinutes());
         return serviceUnit;
     }
 }

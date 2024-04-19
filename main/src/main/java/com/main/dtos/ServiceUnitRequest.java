@@ -1,5 +1,7 @@
 package com.main.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,8 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServiceUnitRequest {
 
+    @NotNull(message = "El tiempo de granularidad en minutos es obligatorio.")
+    @Min(value = 0,message = "El  tiempo no es valido")
+    private int granularityInMinutes;
+
     @NotBlank(message = "El nombre es obligatorio")
-    private String name;
+    private String username;
     
     @NotBlank(message = "La contraseña no puede estar vacía.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")

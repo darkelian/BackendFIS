@@ -1,5 +1,6 @@
 package com.main.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="availability_schedule")
+@Table(name = "availability_schedule")
 public class AvailabilitySchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,12 @@ public class AvailabilitySchedule {
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
+
+    @Column(nullable = false)
+    private String startTime;
+
+    @Column(nullable = false)
+    private String endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_unit")

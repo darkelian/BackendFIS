@@ -32,6 +32,9 @@ public class ServiceUnit {
     @Column(nullable = false,unique = true)
     private String name;
 
+    @Column(nullable = false)
+    private int granularityInMinutes;
+
     @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY)
     private Set<AvailabilitySchedule> availabilitySchedules;
 
