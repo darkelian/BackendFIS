@@ -31,6 +31,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Servicios Backend de Integraservicios")
                         .description("Documentación detallada de los servicios y esquemas para los modulos de Integraservicios")
-                        .version("1.2.1"));
+                        .version("1.3.1"));
     }
 }
