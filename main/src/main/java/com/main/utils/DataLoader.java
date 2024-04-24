@@ -7,8 +7,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.main.dtos.AdminRequest;
+import com.main.dtos.EmployeeRequest;
+import com.main.dtos.StudentRequest;
 import com.main.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -16,39 +19,30 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Component
 public class DataLoader implements CommandLineRunner {
-    private final UserService userService; // Asumiendo que este es tu servicio con el método registerAdministrator
+    private final UserService userService;
     private final ObjectMapper objectMapper;
     private final ResourceLoader resourceLoader;
 
     @Override
     public void run(String... args) throws Exception {
-        if (isDatabaseEmpy()) {
-            Resource resource = resourceLoader.getResource("classpath:data/administrators.json");
-            List<AdminPassword> adminPasswords = objectMapper.readValue(resource.getInputStream(),
-                    new TypeReference<List<AdminPassword>>() {
-                    });
-            adminPasswords.forEach(admin -> {
-                AdminRequest request = new AdminRequest();
-                request.setPassword(admin.getPassword());
-                userService.registerAdministrator(request);
-            });
+        if (isDatabaseEmpty()) {
+            loadData("classpath:data/administrators.json", new TypeReference<List<AdminRequest>>() {}, userService::registerAdministrator);
+            loadData("classpath:data/employees.json", new TypeReference<List<EmployeeRequest>>() {}, userService::registerEmployee);
+            loadData("classpath:data/students.json", new TypeReference<List<StudentRequest>>() {}, userService::registerStudent);
         }
     }
 
-    // Modelos para la carga de datos
-    static class AdminPassword {
-        private String password;
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
+    private <T> void loadData(String path, TypeReference<List<T>> typeReference, Consumer<T> consumer) {
+        Resource resource = resourceLoader.getResource(path);
+        try {
+            List<T> dataList = objectMapper.readValue(resource.getInputStream(), typeReference);
+            dataList.forEach(consumer);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load data from: " + path, e);
         }
     }
 
-    private boolean isDatabaseEmpy() {
+    private boolean isDatabaseEmpty() {
         return userService.getUserRepository().count() == 0;
     }
 }

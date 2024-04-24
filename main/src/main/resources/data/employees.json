@@ -1,12 +1,302 @@
 [
   {
     "documentType": "CC",
-    "document": 1000320241,
-    "email": "juan.perez@example.com",
+    "document": 1000543218,
+    "email": "roflopezm@udistrital.edu.co",
+    "firstName": "Roberto",
+    "middleName": "Oscar",
+    "firstLastName": "Lopez",
+    "middleLastName": "Martinez",
+    "password": "Ro1234:m"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000765432,
+    "email": "magarciar@udistrital.edu.co",
+    "firstName": "Maria",
+    "middleName": "Angelica",
+    "firstLastName": "Garcia",
+    "middleLastName": "Rodriguez",
+    "password": "Ma1234:r"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000987654,
+    "email": "caherrerad@udistrital.edu.co",
+    "firstName": "Carlos",
+    "middleName": "Andres",
+    "firstLastName": "Herrera",
+    "middleLastName": "Diaz",
+    "password": "Ca1234:d"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000123456,
+    "email": "sojimenezr@udistrital.edu.co",
+    "firstName": "Sofia",
+    "middleName": "Olivia",
+    "firstLastName": "Jimenez",
+    "middleLastName": "Rojas",
+    "password": "So1234:r"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000654321,
+    "email": "lurodriguezt@udistrital.edu.co",
+    "firstName": "Luis",
+    "middleName": "Ruben",
+    "firstLastName": "Rodriguez",
+    "middleLastName": "Torres",
+    "password": "Lu1234:t"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000320242,
+    "email": "jucperezg@udistrital.edu.co",
     "firstName": "Juan",
     "middleName": "Carlos",
     "firstLastName": "Perez",
     "middleLastName": "Gomez",
-    "password": "strongPassword123"
+    "password": "Ju1234:g"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000123675,
+    "email": "ancastror@udistrital.edu.co",
+    "firstName": "Ana",
+    "middleName": "Camila",
+    "firstLastName": "Castro",
+    "middleLastName": "Rodriguez",
+    "password": "An1234:r"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000456732,
+    "email": "pafernandezm@udistrital.edu.co",
+    "firstName": "Paula",
+    "middleName": "Andrea",
+    "firstLastName": "Fernandez",
+    "middleLastName": "Morales",
+    "password": "Pa1234:m"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000789456,
+    "email": "edmartinezp@udistrital.edu.co",
+    "firstName": "Eduardo",
+    "middleName": "Daniel",
+    "firstLastName": "Martinez",
+    "middleLastName": "Perez",
+    "password": "Ed1234:p"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000549876,
+    "email": "osramirezv@udistrital.edu.co",
+    "firstName": "Oscar",
+    "middleName": "Santiago",
+    "firstLastName": "Ramirez",
+    "middleLastName": "Vargas",
+    "password": "Os1234:v"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000643127,
+    "email": "virodriguezb@udistrital.edu.co",
+    "firstName": "Viviana",
+    "middleName": "Isabel",
+    "firstLastName": "Rodriguez",
+    "middleLastName": "Bernal",
+    "password": "Vi1234:b"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000856745,
+    "email": "camorenoc@udistrital.edu.co",
+    "firstName": "Camila",
+    "middleName": "Alejandra",
+    "firstLastName": "Moreno",
+    "middleLastName": "Cortes",
+    "password": "Ca1234:c"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000234567,
+    "email": "davasquezl@udistrital.edu.co",
+    "firstName": "David",
+    "middleName": "Alejandro",
+    "firstLastName": "Vasquez",
+    "middleLastName": "Lopez",
+    "password": "Da1234:l"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000321654,
+    "email": "grtorress@udistrital.edu.co",
+    "firstName": "Gabriel",
+    "middleName": "Ricardo",
+    "firstLastName": "Torres",
+    "middleLastName": "Sanchez",
+    "password": "Ga1234:s"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000778899,
+    "email": "jigonzalezt@udistrital.edu.co",
+    "firstName": "Julian",
+    "middleName": "Ignacio",
+    "firstLastName": "Gonzalez",
+    "middleLastName": "Torres",
+    "password": "Ju1234:t"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000214567,
+    "email": "crrodrigueza@udistrital.edu.co",
+    "firstName": "Cristian",
+    "middleName": "Rafael",
+    "firstLastName": "Rodriguez",
+    "middleLastName": "Alvarez",
+    "password": "Cr1234:a"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000332456,
+    "email": "dugutierrezm@udistrital.edu.co",
+    "firstName": "Diana",
+    "middleName": "Ursula",
+    "firstLastName": "Gutierrez",
+    "middleLastName": "Martinez",
+    "password": "Du1234:m"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000445678,
+    "email": "fucastillol@udistrital.edu.co",
+    "firstName": "Fernando",
+    "middleName": "Ulises",
+    "firstLastName": "Castillo",
+    "middleLastName": "Lopez",
+    "password": "Fe1234:l"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000556789,
+    "email": "nacruzo@udistrital.edu.co",
+    "firstName": "Natalia",
+    "middleName": "Andrea",
+    "firstLastName": "Cruz",
+    "middleLastName": "Ortiz",
+    "password": "Na1234:o"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000667890,
+    "email": "seespinosar@udistrital.edu.co",
+    "firstName": "Sergio",
+    "middleName": "Enrique",
+    "firstLastName": "Espinoza",
+    "middleLastName": "Ramirez",
+    "password": "Se1234:r"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000778901,
+    "email": "anmartinezg@udistrital.edu.co",
+    "firstName": "Andres",
+    "middleName": "Nicolas",
+    "firstLastName": "Martinez",
+    "middleLastName": "Garcia",
+    "password": "An1234:g"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000889012,
+    "email": "luhernandezp@udistrital.edu.co",
+    "firstName": "Luisa",
+    "middleName": "Urbana",
+    "firstLastName": "Hernandez",
+    "middleLastName": "Perez",
+    "password": "Lu1234:p"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000990123,
+    "email": "carojass@udistrital.edu.co",
+    "firstName": "Carolina",
+    "middleName": "Antonia",
+    "firstLastName": "Rojas",
+    "middleLastName": "Suarez",
+    "password": "Ca1234:s"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000101234,
+    "email": "juperezt@udistrital.edu.co",
+    "firstName": "Julia",
+    "middleName": "Paula",
+    "firstLastName": "Perez",
+    "middleLastName": "Torres",
+    "password": "Ju1234:t"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000212345,
+    "email": "migomezf@udistrital.edu.co",
+    "firstName": "Miguel",
+    "middleName": "Ignacio",
+    "firstLastName": "Gomez",
+    "middleLastName": "Fernandez",
+    "password": "Mi1234:f"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000323456,
+    "email": "esmoralesv@udistrital.edu.co",
+    "firstName": "Esteban",
+    "middleName": "Santiago",
+    "firstLastName": "Morales",
+    "middleLastName": "Velasquez",
+    "password": "Es1234:v"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000434567,
+    "email": "viquirogac@udistrital.edu.co",
+    "firstName": "Victoria",
+    "middleName": "Isabela",
+    "firstLastName": "Quiroga",
+    "middleLastName": "Campos",
+    "password": "Vi1234:c"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000545678,
+    "email": "anrodriguezm@udistrital.edu.co",
+    "firstName": "Antonio",
+    "middleName": "Nestor",
+    "firstLastName": "Rodriguez",
+    "middleLastName": "Mendez",
+    "password": "An1234:m"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000656789,
+    "email": "mariverah@udistrital.edu.co",
+    "firstName": "Marina",
+    "middleName": "Alejandra",
+    "firstLastName": "Rivera",
+    "middleLastName": "Hernandez",
+    "password": "Ma1234:h"
+  },
+  {
+    "documentType": "CC",
+    "document": 1000767890,
+    "email": "jutrujillol@udistrital.edu.co",
+    "firstName": "Juan",
+    "middleName": "Ulises",
+    "firstLastName": "Trujillo",
+    "middleLastName": "Lopez",
+    "password": "Ju1234:l"
   }
 ]
