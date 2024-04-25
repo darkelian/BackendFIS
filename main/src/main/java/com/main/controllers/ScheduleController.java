@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.ServiceUnitAvailabilityDTO;
@@ -15,6 +16,7 @@ import com.main.services.ScheduleService;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Data
 @RestController
@@ -38,4 +40,12 @@ public class ScheduleController {
                 .fullSuccess("Horario de disponibilidad registrado con exito");
         return ResponseEntity.ok(successResponse);
     }
+
+    @GetMapping("/availability")
+    public ResponseEntity<StandardResponseDTO> getAvailability(@RequestParam String username) {
+        StandardResponseDTO successResponse = new StandardResponseDTO();
+        successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(username));
+        return ResponseEntity.ok(successResponse);
+    }
+
 }

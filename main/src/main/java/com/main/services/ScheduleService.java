@@ -1,6 +1,10 @@
 package com.main.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.main.dtos.AvailabilitySlotDTO;
 import com.main.dtos.DayAvailabilityDTO;
@@ -11,7 +15,7 @@ import com.main.models.ServiceUnit;
 import com.main.repositories.AvailabilityScheduleRepository;
 import com.main.repositories.ServiceUnityRepository;
 
-import jakarta.transaction.Transactional;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -55,5 +59,15 @@ public class ScheduleService {
                 }
             }
         }
+    }
+
+    // Consultar el horario de una unidad de servicio
+    @Transactional(readOnly = true)
+    public ServiceUnitAvailabilityDTO getScheduleByServiceUnitName(String username) {
+        ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Unidad de servicio no encontrada"));
+        List<AvailabilitySchedule> schedule = scheduleRepository.findByServiceUnit(serviceUnit);
+        ServiceUnitAvailabilityDTO availabilityDTO = new ServiceUnitAvailabilityDTO();
+        return availabilityDTO;
     }
 }
