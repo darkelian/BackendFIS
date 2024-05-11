@@ -1,7 +1,8 @@
 package com.main.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,6 @@ import com.main.models.DayOfWeek;
 import com.main.models.ServiceUnit;
 import com.main.repositories.AvailabilityScheduleRepository;
 import com.main.repositories.ServiceUnityRepository;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,10 +64,28 @@ public class ScheduleService {
     // Consultar el horario de una unidad de servicio
     @Transactional(readOnly = true)
     public ServiceUnitAvailabilityDTO getScheduleByServiceUnitName(String username) {
+        // Buscar la entidad ServiceUnit por el nombre
         ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalStateException("Unidad de servicio no encontrada"));
-        List<AvailabilitySchedule> schedule = scheduleRepository.findByServiceUnit(serviceUnit);
-        ServiceUnitAvailabilityDTO availabilityDTO = new ServiceUnitAvailabilityDTO();
-        return availabilityDTO;
+
+        // Buscar todos los horarios asociados a la unidad de servicio
+        List<AvailabilitySchedule> schedules = scheduleRepository.findByServiceUnit(serviceUnit);
+
+        // Agrupar los horarios por DayOfWeek
+        Map<DayOfWeek, List<AvailabilitySlotDTO>> availabilityMap = schedules.stream()
+                .collect(Collectors.groupingBy(
+                        AvailabilitySchedule::getDayOfWeek,
+                        Collectors.mapping(schedule -> new AvailabilitySlotDTO(
+                                schedule.getStartTime(),
+                                schedule.getEndTime()), Collectors.toList())));
+
+        // Convertir el mapa a una lista de DayAvailabilityDTO
+        List<DayAvailabilityDTO> dayAvailabilityList = availabilityMap.entrySet().stream()
+                .map(entry -> new DayAvailabilityDTO(entry.getKey().toString(), entry.getValue()))
+                .collect(Collectors.toList());
+
+        // Crear y retornar el ServiceUnitAvailabilityDTO
+        return new ServiceUnitAvailabilityDTO(dayAvailabilityList);
     }
+
 }

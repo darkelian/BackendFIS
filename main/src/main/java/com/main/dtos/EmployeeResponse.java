@@ -1,6 +1,7 @@
 package com.main.dtos;
 
 import com.main.models.Employee;
+import com.main.models.ServiceUnit;
 
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class EmployeeResponse {
     private String middleName;
     private String firstLastName;
     private String middleLastName;
+    private ServiceUnit serviceUnit;
 
     public EmployeeResponse(Employee employee) {
         this.id = employee.getId();

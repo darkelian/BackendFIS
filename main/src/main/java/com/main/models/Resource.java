@@ -2,7 +2,6 @@ package com.main.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,8 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "type_resource")
-public class TypeResource {
+@Table(name = "resources")
+public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,10 +27,7 @@ public class TypeResource {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(length = 1024)
-    private String description;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_unit")
-    private ServiceUnit serviceUnit;
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false)
+    private TypeResource type;
 }
