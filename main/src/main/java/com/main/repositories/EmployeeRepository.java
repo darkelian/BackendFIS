@@ -1,6 +1,7 @@
 package com.main.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     // Traer los empleados sin asignación de una unidad de servicio
     @Query("SELECT e FROM Employee e WHERE e.serviceUnit IS NULL")
     List<Employee> findUnassignedEmployees();
+
+    Optional<Employee> findByDocument(Long document);
 }

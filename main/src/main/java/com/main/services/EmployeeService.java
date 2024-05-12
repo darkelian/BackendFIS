@@ -1,8 +1,10 @@
 package com.main.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +34,16 @@ public class EmployeeService {
 
     // Traer Empleados por unidad de servicio
     @Transactional(readOnly = true)
-    public List<EmployeeResponse> getByServiceUnitEmployees(String username, boolean includeUnassigned) {
+    public List<EmployeeResponse> getByServiceUnitEmployees(String unitName, boolean includeUnassigned) {
         List<Employee> employees;
         if (includeUnassigned) {
             employees = employeeRepository.findUnassignedEmployees();
+        } else if (unitName != null && !unitName.trim().isEmpty()) {
+            employees = employeeRepository.findByServiceUnitName(unitName);
         } else {
-            employees = employeeRepository.findByServiceUnitName(username);
+            // Caso donde el nombre de la unidad es null o vacío, y no queremos incluir no
+            // asignados
+            employees = Collections.emptyList();
         }
         return employees.stream()
                 .map(EmployeeResponse::new)
@@ -48,11 +54,11 @@ public class EmployeeService {
     @Transactional
     public EmployeeResponse assignServiceUnitToEmployee(Long employeeId, String unitName) {
         ServiceUnit serviceUnit = serviceUnityRepository.findByUsername(unitName)
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new  DataIntegrityViolationException(
                         "Unidad de servicio con nombre '" + unitName + "' no encontrada"));
 
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new IllegalStateException("Empleado con ID '" + employeeId + "' no encontrado"));
+        Employee employee = employeeRepository.findByDocument(employeeId)
+                .orElseThrow(() -> new  DataIntegrityViolationException("Empleado con Documento'" + employeeId + "' no encontrado"));
 
         employee.setServiceUnit(serviceUnit); // Asume que Employee tiene un campo 'serviceUnit' para esta relación
         Employee updatedEmployee = employeeRepository.save(employee);

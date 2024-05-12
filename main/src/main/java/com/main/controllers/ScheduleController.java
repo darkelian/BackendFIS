@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,9 +44,7 @@ public class ScheduleController {
                 || availabilityDTO.getAvailability().get(0).getDate() == null
                 || availabilityDTO.getAvailability().get(0).getTimeSlots().size() == 0
                 || !isValidDateFormat("dd/MM/yyyy", availabilityDTO.getAvailability().get(0).getDate())) {
-            StandardResponseDTO successResponse = new StandardResponseDTO()
-                    .failSuccess("No se puede registar la disponibilidad");
-            return ResponseEntity.ok(successResponse);
+            throw new DataIntegrityViolationException("No se puede registar la disponibilidad");
         }
         scheduleService.createSchedule(availabilityDTO, username);
         StandardResponseDTO successResponse = new StandardResponseDTO()
