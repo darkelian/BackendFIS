@@ -1,5 +1,5 @@
 package com.main.models;
 
-enum DataType {
+public enum DataType {
     NUMBER, STRING, BOOLEAN
 }

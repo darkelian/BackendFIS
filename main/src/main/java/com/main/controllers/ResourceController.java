@@ -5,26 +5,55 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.ResourceTypeDto;
 import com.main.dtos.StandardResponseDTO;
+import com.main.models.ServiceUnit;
+import com.main.security.JwtService;
 import com.main.services.ResourceServices;
+import com.main.services.ScheduleService;
+import com.main.services.TypeResourceService;
+import com.main.services.UnitService;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Data
 @RestController
-@RequestMapping("api/unit")
+@RequestMapping("api/resources")
 @AllArgsConstructor
 public class ResourceController {
     private final ResourceServices resourceServices;
+    private final ScheduleService scheduleService;
+    private final JwtService jwtService;
+    private final TypeResourceService typeResourceService;
+    private final UnitService unitService;
 
     @PostMapping("/type")
-    public ResponseEntity<StandardResponseDTO> createTypeResource(@Validated @RequestBody ResourceTypeDto request) {
-        return ResponseEntity.ok(new StandardResponseDTO().fullSuccess("Se creo"));
-    }
+    public ResponseEntity<StandardResponseDTO> createTypeResource(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @Validated @RequestBody ResourceTypeDto request) {
+        String username = null;
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String jwtToken = authorizationHeader.substring(7);
+            username = jwtService.getUsernameFromToken(jwtToken);
+        }
 
+        if (scheduleService.getScheduleByServiceUnitName(username).getAvailability().isEmpty()) {
+            throw new DataIntegrityViolationException("Sin disponibilidad, agregar una disponibilidad");
+        }
+
+        ServiceUnit serviceUnit = unitService.getServicesUnitByUsername(username)
+                .orElseThrow(() -> new IllegalStateException(
+                        "No se encontró la unidad de servicio para el usuario proporcionado"));
+
+        typeResourceService.createTypeResource(request, serviceUnit);
+
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Recurso tipo creado con éxito");
+        return ResponseEntity.ok(response);
+    }
 }
