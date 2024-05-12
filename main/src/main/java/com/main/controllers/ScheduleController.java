@@ -1,5 +1,9 @@
 package com.main.controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,17 +39,39 @@ public class ScheduleController {
             String jwtToken = authorizationHeader.substring(7);
             username = jwtService.getUsernameFromToken(jwtToken);
         }
+        if (availabilityDTO.getAvailability().size() == 0
+                || availabilityDTO.getAvailability().get(0).getDate() == null
+                || availabilityDTO.getAvailability().get(0).getTimeSlots().size() == 0
+                || !isValidDateFormat("dd/MM/yyyy", availabilityDTO.getAvailability().get(0).getDate())) {
+            StandardResponseDTO successResponse = new StandardResponseDTO()
+                    .failSuccess("No se puede registar la disponibilidad");
+            return ResponseEntity.ok(successResponse);
+        }
         scheduleService.createSchedule(availabilityDTO, username);
         StandardResponseDTO successResponse = new StandardResponseDTO()
-                .fullSuccess("Horario de disponibilidad registrado con exito");
+                .fullSuccess("Disponibilidad registrada exitosamente");
         return ResponseEntity.ok(successResponse);
     }
 
     @GetMapping("/availability")
     public ResponseEntity<StandardResponseDTO> getAvailability(@RequestParam String username) {
         StandardResponseDTO successResponse = new StandardResponseDTO();
-        successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(username));
+        successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(
+                username));
         return ResponseEntity.ok(successResponse);
     }
 
+    private boolean isValidDateFormat(String format, String value) {
+        Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            date = sdf.parse(value);
+            if (!value.equals(sdf.format(date))) {
+                date = null;
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return date != null;
+    }
 }
