@@ -1,0 +1,12 @@
+[
+  {
+    "granularityInMinutes": 30,
+    "username": "Laboratorio Física",
+    "password": "Laboratorio:v"
+  },
+  {
+    "granularityInMinutes": 30,
+    "username": "Biblioteca",
+    "password": "Biblioteca:v2024"
+  }
+]
