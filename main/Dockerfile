@@ -6,7 +6,8 @@
 #COPY target/*.jar java-app.jar
 #CMD java -jar java-app.jar --spring.profiles.active=prod -Dserver.port=$PORT
 # Usar una imagen base que incluya Maven para construir el proyecto
-FROM maven:3.9.6-openjdk-21 as builder
+FROM maven:3.6.3-openjdk-11 as builder
+
 
 # Copiar el código fuente al contenedor
 COPY . /app
