@@ -19,6 +19,8 @@ import com.main.dtos.StandardResponseDTO;
 import com.main.security.JwtService;
 import com.main.services.ScheduleService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +29,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("api/unit/shedule")
 @AllArgsConstructor
+@Tag(name = "Unidad de Servicios")
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final JwtService jwtService;
 
     @PostMapping("/availability")
+    @Operation(summary = "Registrar disponibilidad horaria de la unidad de servicio")
     public ResponseEntity<StandardResponseDTO> registerAvailability(
             @RequestHeader("Authorization") String authorizationHeader,
             @Validated @RequestBody ServiceUnitAvailabilityDTO availabilityDTO) {
@@ -53,6 +57,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/availability")
+    @Operation(summary = "Obtener disponibilidad horaria de la unidad de servicio")
     public ResponseEntity<StandardResponseDTO> getAvailability(@RequestParam String username) {
         StandardResponseDTO successResponse = new StandardResponseDTO();
         successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(

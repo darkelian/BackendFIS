@@ -9,6 +9,8 @@ import com.main.dtos.StandardResponseDTO;
 import com.main.dtos.StudentRequest;
 import com.main.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/register")
 @AllArgsConstructor
+@Tag(name = "Administrador")
 public class RegisterController {
     private final UserService userService;
 
     @PostMapping("/administrator")
+    @Operation(summary = "Registrar administrador")
     public ResponseEntity<StandardResponseDTO> registerAdministrator(@Validated @RequestBody AdminRequest request) {
         userService.registerAdministrator(request);
         StandardResponseDTO successResponse = new StandardResponseDTO()
@@ -34,6 +38,7 @@ public class RegisterController {
     }
 
     @PostMapping("/employee")
+    @Operation(summary = "Registrar empleado")
     public ResponseEntity<StandardResponseDTO> registerEmployee(@Validated @RequestBody EmployeeRequest request) {
         userService.registerEmployee(request);
         StandardResponseDTO successResponse = new StandardResponseDTO()
@@ -42,6 +47,7 @@ public class RegisterController {
     }
 
     @PostMapping("/student")
+    @Operation(summary = "Registrar estudiante")
     public ResponseEntity<StandardResponseDTO> registerStudent(@Validated @RequestBody StudentRequest request) {
         userService.registerStudent(request);
         StandardResponseDTO successResponse = new StandardResponseDTO()
@@ -50,6 +56,7 @@ public class RegisterController {
     }
 
     @PostMapping("/unit")
+    @Operation(summary = "Registrar unidad de servicio")
     public ResponseEntity<StandardResponseDTO> registerServiceUnit(@Validated @RequestBody ServiceUnitRequest request) {
         userService.registerServiceUnit(request);
         StandardResponseDTO successResponse = new StandardResponseDTO()

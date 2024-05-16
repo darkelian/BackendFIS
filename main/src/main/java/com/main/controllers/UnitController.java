@@ -14,6 +14,8 @@ import com.main.security.JwtService;
 import com.main.services.EmployeeService;
 import com.main.services.UnitService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,12 +25,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RestController
 @RequestMapping("api/unit")
 @AllArgsConstructor
+@Tag(name = "Unidad de Servicios")
 public class UnitController {
     private final UnitService unitService;
     private final EmployeeService employeeService;
     private final JwtService jwtService;
 
     @GetMapping("/employee")
+    @Operation(summary = "Obtener empleados por unidad de servicio")
     public ResponseEntity<StandardResponseDTO> getEmployeeByServiceUnit(
             @RequestParam(required = false) String username) {
         boolean includeUnassigned = (username == null || username.trim().isEmpty());
@@ -38,6 +42,7 @@ public class UnitController {
     }
 
     @PutMapping("/employee/assign")
+    @Operation(summary = "Asignar empleado a unidad de servicio")
     public ResponseEntity<StandardResponseDTO> assignEmployeeToUnit(
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam Long employeeId) {

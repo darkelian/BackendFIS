@@ -12,6 +12,8 @@ import com.main.dtos.LoginRequest;
 import com.main.dtos.StandardResponseDTO;
 import com.main.services.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,6 +24,8 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
+    @Tag(name = "Autenticación")
+    @Operation(summary = "Iniciar sesión")
     public ResponseEntity<StandardResponseDTO> login(@Validated @RequestBody LoginRequest request) {
         AuthResponse authResponse = authService.login(request);
         StandardResponseDTO successResponse = new StandardResponseDTO().fullSuccess(authResponse);

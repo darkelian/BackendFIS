@@ -12,6 +12,8 @@ import com.main.services.ScheduleService;
 import com.main.services.TypeResourceService;
 import com.main.services.UnitService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RestController
 @RequestMapping("api/resources")
 @AllArgsConstructor
+@Tag(name = "Unidad de Servicios")
 public class ResourceController {
     private final ResourceServices resourceServices;
     private final ScheduleService scheduleService;
@@ -34,6 +37,7 @@ public class ResourceController {
     private final UnitService unitService;
 
     @PostMapping("/type")
+    @Operation(summary = "Crear un nuevo tipo de recurso")
     public ResponseEntity<StandardResponseDTO> createTypeResource(
             @RequestHeader("Authorization") String authorizationHeader,
             @Validated @RequestBody ResourceTypeDto request) {
