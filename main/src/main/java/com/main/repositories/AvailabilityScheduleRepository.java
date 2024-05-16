@@ -1,6 +1,6 @@
 package com.main.repositories;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +11,6 @@ import com.main.models.ServiceUnit;
 
 @Repository
 public interface AvailabilityScheduleRepository extends JpaRepository<AvailabilitySchedule, Long> {
-    List<AvailabilitySchedule> findByDateAvailabilityAndServiceUnit(Date date, ServiceUnit serviceUnit);
+    List<AvailabilitySchedule> findByDateAvailabilityAndServiceUnit(LocalDate date, ServiceUnit serviceUnit);
     List<AvailabilitySchedule> findByServiceUnit(ServiceUnit serviceUnit);
 }

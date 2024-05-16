@@ -1,7 +1,5 @@
 package com.main.models;
 
-import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,19 +37,4 @@ public class Feature {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_resource_id")
     private TypeResource typeResource;
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, type);  // Solo campos primitivos, no entidades asociadas
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Feature other = (Feature) obj;
-        return Objects.equals(id, other.id);
-    }
 }

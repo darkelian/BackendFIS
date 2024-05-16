@@ -8,5 +8,10 @@
     "granularityInMinutes": 30,
     "username": "Biblioteca",
     "password": "Biblioteca:v2024"
+  },
+  {
+    "granularityInMinutes": 60,
+    "username": "Espacios Fisicos",
+    "password": "Espacios:v2024"
   }
 ]

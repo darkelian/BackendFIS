@@ -17,7 +17,7 @@ public class EmployeeRequest {
     private String documentType;
 
     @NotNull(message = "El documento no puede ser nulo.")
-    @Min(value = 0,message = "Documento no valido")
+    @Min(value = 0, message = "Documento no valido")
     private long document;
 
     @NotBlank(message = "El correo electrónico no puede estar vacío.")
@@ -37,4 +37,7 @@ public class EmployeeRequest {
     @NotBlank(message = "La contraseña no puede estar vacía.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
     private String password;
+
+    @NotNull(message = "La unidad de servicio no puede estar vacía.")
+    private Long serviceUnitId;
 }

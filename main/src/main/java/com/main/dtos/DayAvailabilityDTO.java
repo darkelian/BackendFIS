@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DayAvailabilityDTO {
     @NotBlank(message = "La fecha es obligatoria")
-    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "La fecha debe estar en el formato dd/MM/yyyy")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "La fecha debe estar en el formato yyyy-MM-dd")
     private String date;
     private List<AvailabilitySlotDTO> timeSlots;
 }

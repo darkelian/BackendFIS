@@ -1,7 +1,10 @@
 package com.main.models;
 
+
+
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,24 +26,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "service_unit", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = "service_units", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 public class ServiceUnit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
     private int granularityInMinutes;
 
-    @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AvailabilitySchedule> availabilitySchedules;
 
-    @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TypeResource> typeResources;
-    
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

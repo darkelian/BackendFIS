@@ -27,14 +27,14 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (isDatabaseEmpty()) {
+            loadData("classpath:data/units.json", new TypeReference<List<ServiceUnitRequest>>() {
+            }, userService::registerServiceUnit);
             loadData("classpath:data/administrators.json", new TypeReference<List<AdminRequest>>() {
             }, userService::registerAdministrator);
             loadData("classpath:data/employees.json", new TypeReference<List<EmployeeRequest>>() {
             }, userService::registerEmployee);
             loadData("classpath:data/students.json", new TypeReference<List<StudentRequest>>() {
             }, userService::registerStudent);
-            loadData("classpath:data/units.json", new TypeReference<List<ServiceUnitRequest>>() {
-            }, userService::registerServiceUnit);
         }
     }
 

@@ -67,6 +67,12 @@ public class UserService {
         User user = createUser(String.valueOf(request.getDocument()), request.getPassword(), Role.EMPLOYEE);
         Employee employee = convertToEmployee(request);
         employee.setUser(user);
+
+        // Asignar la unidad de servicio
+        ServiceUnit serviceUnit = serviceUnityRepository.findById(request.getServiceUnitId())
+                .orElseThrow(() -> new IllegalStateException("Unidad de servicio no encontrada"));
+        employee.setServiceUnit(serviceUnit);
+
         return employeeRepository.save(employee);
     }
 

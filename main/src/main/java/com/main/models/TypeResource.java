@@ -1,6 +1,8 @@
 package com.main.models;
 
-import java.util.Objects;
+
+
+
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -19,12 +21,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "type_resource")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "type_resource")
 public class TypeResource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,19 +41,4 @@ public class TypeResource {
 
     @OneToMany(mappedBy = "typeResource", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Feature> features;
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);  // Solo campos primitivos, no colecciones/entidades asociadas
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        TypeResource other = (TypeResource) obj;
-        return Objects.equals(id, other.id);
-    }
 }

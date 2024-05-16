@@ -1,6 +1,7 @@
 package com.main.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,22 +22,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "availability_schedule")
+@Table(name = "availability_schedules")
 public class AvailabilitySchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
-    private Date dateAvailability;
+    @Column(nullable = false)
+    private LocalDate dateAvailability;
 
     @Column(nullable = false)
-    private String startTime;
+    private LocalTime startTime;
 
     @Column(nullable = false)
-    private String endTime;
+    private LocalTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_unit")
+    @JoinColumn(name = "service_unit_id", nullable = false)
     private ServiceUnit serviceUnit;
 }

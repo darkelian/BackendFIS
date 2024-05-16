@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "employees", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = "employees", uniqueConstraints = { @UniqueConstraint(columnNames = { "email", "document" }) })
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +55,6 @@ public class Employee {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_unit")
+    @JoinColumn(name = "service_unit_id", nullable = false)
     private ServiceUnit serviceUnit;
 }

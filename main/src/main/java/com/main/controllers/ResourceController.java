@@ -48,7 +48,7 @@ public class ResourceController {
         }
 
         if (scheduleService.getScheduleByServiceUnitName(username).getAvailability().isEmpty()) {
-            throw new DataIntegrityViolationException("Sin disponibilidad, agregar una disponibilidad");
+            throw new DataIntegrityViolationException("Sin disponibilidad horaria, agregar una disponibilidad horaria primero");
         }
 
         ServiceUnit serviceUnit = unitService.getServicesUnitByUsername(username)
@@ -57,7 +57,7 @@ public class ResourceController {
 
         typeResourceService.createTypeResource(request, serviceUnit);
 
-        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Recurso tipo creado con éxito");
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Tipo de recurso  creado con éxito");
         return ResponseEntity.ok(response);
     }
 }

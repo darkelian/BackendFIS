@@ -7,7 +7,8 @@
     "middleName": "Oscar",
     "firstLastName": "Lopez",
     "middleLastName": "Martinez",
-    "password": "Ro1234:m"
+    "password": "Ro1234:m",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -17,7 +18,8 @@
     "middleName": "Angelica",
     "firstLastName": "Garcia",
     "middleLastName": "Rodriguez",
-    "password": "Ma1234:r"
+    "password": "Ma1234:r",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -27,7 +29,8 @@
     "middleName": "Andres",
     "firstLastName": "Herrera",
     "middleLastName": "Diaz",
-    "password": "Ca1234:d"
+    "password": "Ca1234:d",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -37,7 +40,8 @@
     "middleName": "Olivia",
     "firstLastName": "Jimenez",
     "middleLastName": "Rojas",
-    "password": "So1234:r"
+    "password": "So1234:r",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -47,7 +51,8 @@
     "middleName": "Ruben",
     "firstLastName": "Rodriguez",
     "middleLastName": "Torres",
-    "password": "Lu1234:t"
+    "password": "Lu1234:t",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -57,7 +62,8 @@
     "middleName": "Carlos",
     "firstLastName": "Perez",
     "middleLastName": "Gomez",
-    "password": "Ju1234:g"
+    "password": "Ju1234:g",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -67,7 +73,8 @@
     "middleName": "Camila",
     "firstLastName": "Castro",
     "middleLastName": "Rodriguez",
-    "password": "An1234:r"
+    "password": "An1234:r",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -77,7 +84,8 @@
     "middleName": "Andrea",
     "firstLastName": "Fernandez",
     "middleLastName": "Morales",
-    "password": "Pa1234:m"
+    "password": "Pa1234:m",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -87,7 +95,8 @@
     "middleName": "Daniel",
     "firstLastName": "Martinez",
     "middleLastName": "Perez",
-    "password": "Ed1234:p"
+    "password": "Ed1234:p",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -97,7 +106,8 @@
     "middleName": "Santiago",
     "firstLastName": "Ramirez",
     "middleLastName": "Vargas",
-    "password": "Os1234:v"
+    "password": "Os1234:v",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -107,7 +117,8 @@
     "middleName": "Isabel",
     "firstLastName": "Rodriguez",
     "middleLastName": "Bernal",
-    "password": "Vi1234:b"
+    "password": "Vi1234:b",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -117,7 +128,8 @@
     "middleName": "Alejandra",
     "firstLastName": "Moreno",
     "middleLastName": "Cortes",
-    "password": "Ca1234:c"
+    "password": "Ca1234:c",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -127,7 +139,8 @@
     "middleName": "Alejandro",
     "firstLastName": "Vasquez",
     "middleLastName": "Lopez",
-    "password": "Da1234:l"
+    "password": "Da1234:l",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -137,7 +150,8 @@
     "middleName": "Ricardo",
     "firstLastName": "Torres",
     "middleLastName": "Sanchez",
-    "password": "Ga1234:s"
+    "password": "Ga1234:s",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -147,7 +161,8 @@
     "middleName": "Ignacio",
     "firstLastName": "Gonzalez",
     "middleLastName": "Torres",
-    "password": "Ju1234:t"
+    "password": "Ju1234:t",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -157,7 +172,8 @@
     "middleName": "Rafael",
     "firstLastName": "Rodriguez",
     "middleLastName": "Alvarez",
-    "password": "Cr1234:a"
+    "password": "Cr1234:a",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -167,7 +183,8 @@
     "middleName": "Ursula",
     "firstLastName": "Gutierrez",
     "middleLastName": "Martinez",
-    "password": "Du1234:m"
+    "password": "Du1234:m",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -177,7 +194,8 @@
     "middleName": "Ulises",
     "firstLastName": "Castillo",
     "middleLastName": "Lopez",
-    "password": "Fe1234:l"
+    "password": "Fe1234:l",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -187,7 +205,8 @@
     "middleName": "Andrea",
     "firstLastName": "Cruz",
     "middleLastName": "Ortiz",
-    "password": "Na1234:o"
+    "password": "Na1234:o",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -197,7 +216,8 @@
     "middleName": "Enrique",
     "firstLastName": "Espinoza",
     "middleLastName": "Ramirez",
-    "password": "Se1234:r"
+    "password": "Se1234:r",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -207,7 +227,8 @@
     "middleName": "Nicolas",
     "firstLastName": "Martinez",
     "middleLastName": "Garcia",
-    "password": "An1234:g"
+    "password": "An1234:g",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -217,7 +238,8 @@
     "middleName": "Urbana",
     "firstLastName": "Hernandez",
     "middleLastName": "Perez",
-    "password": "Lu1234:p"
+    "password": "Lu1234:p",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -227,7 +249,8 @@
     "middleName": "Antonia",
     "firstLastName": "Rojas",
     "middleLastName": "Suarez",
-    "password": "Ca1234:s"
+    "password": "Ca1234:s",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -237,7 +260,8 @@
     "middleName": "Paula",
     "firstLastName": "Perez",
     "middleLastName": "Torres",
-    "password": "Ju1234:t"
+    "password": "Ju1234:t",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -247,7 +271,8 @@
     "middleName": "Ignacio",
     "firstLastName": "Gomez",
     "middleLastName": "Fernandez",
-    "password": "Mi1234:f"
+    "password": "Mi1234:f",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -257,7 +282,8 @@
     "middleName": "Santiago",
     "firstLastName": "Morales",
     "middleLastName": "Velasquez",
-    "password": "Es1234:v"
+    "password": "Es1234:v",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -267,7 +293,8 @@
     "middleName": "Isabela",
     "firstLastName": "Quiroga",
     "middleLastName": "Campos",
-    "password": "Vi1234:c"
+    "password": "Vi1234:c",
+    "serviceUnitId": 3
   },
   {
     "documentType": "CC",
@@ -277,7 +304,8 @@
     "middleName": "Nestor",
     "firstLastName": "Rodriguez",
     "middleLastName": "Mendez",
-    "password": "An1234:m"
+    "password": "An1234:m",
+    "serviceUnitId": 1
   },
   {
     "documentType": "CC",
@@ -287,7 +315,8 @@
     "middleName": "Alejandra",
     "firstLastName": "Rivera",
     "middleLastName": "Hernandez",
-    "password": "Ma1234:h"
+    "password": "Ma1234:h",
+    "serviceUnitId": 2
   },
   {
     "documentType": "CC",
@@ -297,6 +326,7 @@
     "middleName": "Ulises",
     "firstLastName": "Trujillo",
     "middleLastName": "Lopez",
-    "password": "Ju1234:l"
+    "password": "Ju1234:l",
+    "serviceUnitId": 3
   }
 ]
