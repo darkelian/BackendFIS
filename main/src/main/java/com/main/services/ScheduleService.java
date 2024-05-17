@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.main.dtos.AvailabilitySlotDTO;
 import com.main.dtos.DayAvailabilityDTO;
 import com.main.dtos.ServiceUnitAvailabilityDTO;
+import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.AvailabilitySchedule;
 import com.main.models.ServiceUnit;
 import com.main.repositories.AvailabilityScheduleRepository;
@@ -26,64 +27,85 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ScheduleService {
+
     private final AvailabilityScheduleRepository scheduleRepository;
     private final ServiceUnityRepository serviceUnitRepository;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    private static final String SERVICE_UNIT_NOT_FOUND = "Unidad de servicio no encontrada";
+    private static final String SCHEDULE_ALREADY_EXISTS = "Ya existe un horario para la fecha proporcionada en la unidad de servicio especificada";
 
     @Transactional
     public void createSchedule(ServiceUnitAvailabilityDTO scheduleDTO, String username) {
-        // Convertir la cadena de la fecha en un objeto LocalDate
-        String dateString = scheduleDTO.getAvailability().get(0).getDate();
-        LocalDate date = LocalDate.parse(dateString, DATE_FORMATTER);
+        LocalDate date = parseDate(scheduleDTO.getAvailability().get(0).getDate());
 
-        // Buscar la entidad ServiceUnit por el nombre de usuario
-        ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("Unidad de servicio no encontrada"));
+        ServiceUnit serviceUnit = findServiceUnitByUsername(username);
 
-        // Verificar si ya existe un horario para la fecha y unidad de servicio dada
-        List<AvailabilitySchedule> existingSchedules = scheduleRepository.findByDateAvailabilityAndServiceUnit(date,
-                serviceUnit);
-        if (!existingSchedules.isEmpty()) {
-            throw new DataIntegrityViolationException(
-                    "Ya existe un horario para la fecha proporcionada en la unidad de servicio especificada");
-        }
+        validateScheduleNotExists(date, serviceUnit);
 
-        // Crear un nuevo horario de disponibilidad
-        AvailabilitySchedule schedule = new AvailabilitySchedule();
-        schedule.setDateAvailability(date);
-        schedule.setServiceUnit(serviceUnit);
-        schedule.setStartTime(LocalTime.parse(scheduleDTO.getAvailability().get(0).getTimeSlots().get(0).getStartTime(), TIME_FORMATTER));
-        schedule.setEndTime(LocalTime.parse(scheduleDTO.getAvailability().get(0).getTimeSlots().get(0).getEndTime(), TIME_FORMATTER));
+        AvailabilitySchedule schedule = buildAvailabilitySchedule(scheduleDTO, date, serviceUnit);
 
-        // Guardar el horario de disponibilidad en la base de datos
         scheduleRepository.save(schedule);
     }
 
     @Transactional(readOnly = true)
     public ServiceUnitAvailabilityDTO getScheduleByServiceUnitName(String username) {
-        // Buscar la entidad ServiceUnit por el nombre de usuario
-        ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("Unidad de servicio no encontrada"));
+        ServiceUnit serviceUnit = findServiceUnitByUsername(username);
 
-        // Buscar todos los horarios asociados a la unidad de servicio
         List<AvailabilitySchedule> schedules = scheduleRepository.findByServiceUnit(serviceUnit);
 
-        // Agrupar los horarios por fecha de disponibilidad
+        List<DayAvailabilityDTO> dayAvailabilityList = buildDayAvailabilityList(schedules);
+
+        return new ServiceUnitAvailabilityDTO(dayAvailabilityList);
+    }
+
+    private LocalDate parseDate(String dateString) {
+        return LocalDate.parse(dateString, DATE_FORMATTER);
+    }
+
+    private ServiceUnit findServiceUnitByUsername(String username) {
+        return serviceUnitRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException(SERVICE_UNIT_NOT_FOUND));
+    }
+
+    private void validateScheduleNotExists(LocalDate date, ServiceUnit serviceUnit) {
+        List<AvailabilitySchedule> existingSchedules = scheduleRepository.findByDateAvailabilityAndServiceUnit(date, serviceUnit);
+        if (!existingSchedules.isEmpty()) {
+            throw new DataIntegrityViolationException(SCHEDULE_ALREADY_EXISTS);
+        }
+    }
+
+    private AvailabilitySchedule buildAvailabilitySchedule(ServiceUnitAvailabilityDTO scheduleDTO, LocalDate date, ServiceUnit serviceUnit) {
+        AvailabilitySlotDTO slot = scheduleDTO.getAvailability().get(0).getTimeSlots().get(0);
+        LocalTime startTime = parseTime(slot.getStartTime());
+        LocalTime endTime = parseTime(slot.getEndTime());
+
+        AvailabilitySchedule schedule = new AvailabilitySchedule();
+        schedule.setDateAvailability(date);
+        schedule.setServiceUnit(serviceUnit);
+        schedule.setStartTime(startTime);
+        schedule.setEndTime(endTime);
+
+        return schedule;
+    }
+
+    private LocalTime parseTime(String timeString) {
+        return LocalTime.parse(timeString, TIME_FORMATTER);
+    }
+
+    private List<DayAvailabilityDTO> buildDayAvailabilityList(List<AvailabilitySchedule> schedules) {
         Map<String, List<AvailabilitySlotDTO>> availabilityMap = schedules.stream()
                 .collect(Collectors.groupingBy(
                         schedule -> schedule.getDateAvailability().toString(),
                         Collectors.mapping(
-                                schedule -> new AvailabilitySlotDTO(schedule.getStartTime().toString(), schedule.getEndTime().toString()),
+                                schedule -> new AvailabilitySlotDTO(
+                                        schedule.getStartTime().toString(),
+                                        schedule.getEndTime().toString()),
                                 Collectors.toList())));
 
-        // Convertir el mapa a una lista de DayAvailabilityDTO
-        List<DayAvailabilityDTO> dayAvailabilityList = availabilityMap.entrySet().stream()
+        return availabilityMap.entrySet().stream()
                 .map(entry -> new DayAvailabilityDTO(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-
-        // Crear y retornar el ServiceUnitAvailabilityDTO
-        return new ServiceUnitAvailabilityDTO(dayAvailabilityList);
     }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServicesUnitResponse {
-
+    private Long id;
     private int granularityInMinutes;
     private String username;
 }

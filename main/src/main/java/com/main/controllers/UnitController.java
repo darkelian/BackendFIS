@@ -38,7 +38,10 @@ public class UnitController {
         boolean includeUnassigned = (username == null || username.trim().isEmpty());
         List<EmployeeResponse> employeeResponses = employeeService.getByServiceUnitEmployees(username,
                 includeUnassigned);
-        return ResponseEntity.ok(new StandardResponseDTO().fullSuccess(employeeResponses));
+        return ResponseEntity.ok(
+                employeeResponses.size() == 0
+                        ? new StandardResponseDTO().failSuccess("No se encontraron empleados para " + username)
+                        : new StandardResponseDTO().fullSuccess(employeeResponses));
     }
 
     @PutMapping("/employee/assign")

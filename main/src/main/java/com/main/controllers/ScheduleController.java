@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Data
 @RestController
-@RequestMapping("api/unit/shedule")
+@RequestMapping("api/unit/schedule")
 @AllArgsConstructor
 @Tag(name = "Unidad de Servicios")
 public class ScheduleController {
@@ -44,11 +44,11 @@ public class ScheduleController {
             String jwtToken = authorizationHeader.substring(7);
             username = jwtService.getUsernameFromToken(jwtToken);
         }
-        if (availabilityDTO.getAvailability().size() == 0
+        if (availabilityDTO.getAvailability().isEmpty()
                 || availabilityDTO.getAvailability().get(0).getDate() == null
-                || availabilityDTO.getAvailability().get(0).getTimeSlots().size() == 0
-                || !isValidDateFormat("dd/MM/yyyy", availabilityDTO.getAvailability().get(0).getDate())) {
-            throw new DataIntegrityViolationException("No se puede registar la disponibilidad");
+                || availabilityDTO.getAvailability().get(0).getTimeSlots().isEmpty()
+                || !isValidDateFormat("yyyy-MM-dd", availabilityDTO.getAvailability().get(0).getDate())) {
+            throw new DataIntegrityViolationException("No se puede registrar la disponibilidad");
         }
         scheduleService.createSchedule(availabilityDTO, username);
         StandardResponseDTO successResponse = new StandardResponseDTO()

@@ -37,4 +37,19 @@ public class Feature {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_resource_id")
     private TypeResource typeResource;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Feature feature = (Feature) o;
+
+        return id != null ? id.equals(feature.id) : feature.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

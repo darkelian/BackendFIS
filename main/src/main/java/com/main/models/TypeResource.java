@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "type_resource")
+@Table(name = "type_resources")
 @Data
 @Builder
 @AllArgsConstructor
@@ -41,4 +41,19 @@ public class TypeResource {
 
     @OneToMany(mappedBy = "typeResource", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Feature> features;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TypeResource that = (TypeResource) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

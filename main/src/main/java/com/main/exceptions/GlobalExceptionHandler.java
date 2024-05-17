@@ -12,8 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.main.dtos.StandardResponseDTO;
 
-
-
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +68,20 @@ public class GlobalExceptionHandler {
         errors.put("timestamp", Instant.now());
         errors.put("status", HttpStatus.CONFLICT.value());
         errors.put("errors", ex.getMostSpecificCause().getMessage());
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setSuccess(false);
+        response.setData(errors);
+        response.setCount(1);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        Map<String, Object> errors = new HashMap<>();
+        errors.put("timestamp", Instant.now());
+        errors.put("status", HttpStatus.NOT_FOUND.value());
+        errors.put("errors", ex.getMessage());
         StandardResponseDTO response = new StandardResponseDTO();
         response.setSuccess(false);
         response.setData(errors);

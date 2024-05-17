@@ -25,6 +25,7 @@ public class UnitService {
         return serviceUnityRepository.findAll().stream()
                 .map(serviceUnit -> {
                     return new ServicesUnitResponse(
+                            serviceUnit.getId(),
                             serviceUnit.getGranularityInMinutes(),
                             serviceUnit.getUser().getUsername());
                 })

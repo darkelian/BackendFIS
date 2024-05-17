@@ -7,7 +7,7 @@
     "middleName": "Elian",
     "firstLastName": "Peña",
     "middleLastName": "Jaimes",
-    "password": "Brayan:v",
+    "password": "Brayan:v12",
     "codeStudent": 20192020106,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería de sistemas"
@@ -20,7 +20,7 @@
     "middleName": "Alberto",
     "firstLastName": "Trujillo",
     "middleLastName": "Morales",
-    "password": "Carlos:v",
+    "password": "Carlos:v12",
     "codeStudent": 20202020107,
     "faculty": "Artes",
     "degreeProgram": "Artes Musicales"
@@ -33,7 +33,7 @@
     "middleName": "Ursula",
     "firstLastName": "Herrera",
     "middleLastName": "Perez",
-    "password": "Julia:v",
+    "password": "Julia:v123",
     "codeStudent": 20172017101,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Ciencias Sociales"
@@ -46,7 +46,7 @@
     "middleName": "Antonio",
     "firstLastName": "Diaz",
     "middleLastName": "Castro",
-    "password": "Miguel:v",
+    "password": "Miguel:v12",
     "codeStudent": 20182018102,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Biología"
@@ -72,7 +72,7 @@
     "middleName": "Urbano",
     "firstLastName": "Vargas",
     "middleLastName": "Lopez",
-    "password": "Luis:v",
+    "password": "Luis:v1234",
     "codeStudent": 20182018103,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Ingeniería Ambiental"
@@ -85,7 +85,7 @@
     "middleName": "Andrea",
     "firstLastName": "Moreno",
     "middleLastName": "Vargas",
-    "password": "Camila:v",
+    "password": "Camila:v12",
     "codeStudent": 20192019104,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería Electrónica"
@@ -98,7 +98,7 @@
     "middleName": "Omar",
     "firstLastName": "Castillo",
     "middleLastName": "Torres",
-    "password": "Roberto:v",
+    "password": "Roberto:v1",
     "codeStudent": 20202020208,
     "faculty": "Artes",
     "degreeProgram": "Artes Plásticas"
@@ -111,7 +111,7 @@
     "middleName": "Olivia",
     "firstLastName": "Navarro",
     "middleLastName": "Fernandez",
-    "password": "Sofia:v",
+    "password": "Sofia:v123",
     "codeStudent": 20172017102,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Biología"
@@ -124,7 +124,7 @@
     "middleName": "Isaac",
     "firstLastName": "Gomez",
     "middleLastName": "Martinez",
-    "password": "Ricardo:v",
+    "password": "Ricardo:v1",
     "codeStudent": 20182018209,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Matemáticas"
@@ -137,7 +137,7 @@
     "middleName": "Santiago",
     "firstLastName": "Quiroz",
     "middleLastName": "Cortes",
-    "password": "Esteban:v",
+    "password": "Esteban:v1",
     "codeStudent": 20212021110,
     "faculty": "Tecnológica",
     "degreeProgram": "Ingeniería de Telecomunicaciones"
@@ -150,7 +150,7 @@
     "middleName": "Ursula",
     "firstLastName": "Perez",
     "middleLastName": "Jimenez",
-    "password": "Lucia:v",
+    "password": "Lucia:v123",
     "codeStudent": 20182018111,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Ingeniería Forestal"
@@ -163,7 +163,7 @@
     "middleName": "Ulises",
     "firstLastName": "Moreno",
     "middleLastName": "Torres",
-    "password": "Daniel:v",
+    "password": "Daniel:v12",
     "codeStudent": 20192019112,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería Civil"
@@ -189,7 +189,7 @@
     "middleName": "Uriel",
     "firstLastName": "Romero",
     "middleLastName": "Silva",
-    "password": "Julian:v",
+    "password": "Julian:v12",
     "codeStudent": 20172017113,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Física"
@@ -215,7 +215,7 @@
     "middleName": "Nicolas",
     "firstLastName": "Rodriguez",
     "middleLastName": "Ramirez",
-    "password": "Andres:v",
+    "password": "Andres:v12",
     "codeStudent": 20212021115,
     "faculty": "Tecnológica",
     "degreeProgram": "Tecnología Electrónica"
@@ -228,7 +228,7 @@
     "middleName": "Tatiana",
     "firstLastName": "Torres",
     "middleLastName": "Camacho",
-    "password": "Luisa:v",
+    "password": "Luisa:v123",
     "codeStudent": 20182018116,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Tecnología en Gestión Ambiental"
@@ -254,7 +254,7 @@
     "middleName": "Samuel",
     "firstLastName": "Jimenez",
     "middleLastName": "Lopez",
-    "password": "Oscar:v",
+    "password": "Oscar:v123",
     "codeStudent": 20202020218,
     "faculty": "Artes",
     "degreeProgram": "Cinematografía"
@@ -267,7 +267,7 @@
     "middleName": "Olivia",
     "firstLastName": "Herrera",
     "middleLastName": "Vargas",
-    "password": "Sonia:v",
+    "password": "Sonia:v123",
     "codeStudent": 20172017119,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Matemáticas"
@@ -280,7 +280,7 @@
     "middleName": "Antonio",
     "firstLastName": "Fernandez",
     "middleLastName": "Gomez",
-    "password": "Manuel:v",
+    "password": "Manuel:v12",
     "codeStudent": 20182018220,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Física"
@@ -293,7 +293,7 @@
     "middleName": "Carmen",
     "firstLastName": "Castillo",
     "middleLastName": "Suarez",
-    "password": "Lucia:v",
+    "password": "Lucia:v123",
     "codeStudent": 20212021121,
     "faculty": "Tecnológica",
     "degreeProgram": "Ingeniería de Software"
@@ -306,7 +306,7 @@
     "middleName": "Ulises",
     "firstLastName": "Vargas",
     "middleLastName": "Torres",
-    "password": "Juan:v",
+    "password": "Juan:v1234",
     "codeStudent": 20182018122,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Tecnología en Saneamiento Ambiental"
@@ -319,7 +319,7 @@
     "middleName": "Ignacio",
     "firstLastName": "Morales",
     "middleLastName": "Martinez",
-    "password": "Gabriel:v",
+    "password": "Gabriel:v1",
     "codeStudent": 20192019123,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería Eléctrica"
@@ -332,7 +332,7 @@
     "middleName": "Olga",
     "firstLastName": "Castro",
     "middleLastName": "Cortes",
-    "password": "Rocio:v",
+    "password": "Rocio:v123",
     "codeStudent": 20202020224,
     "faculty": "Artes",
     "degreeProgram": "Música"
@@ -345,7 +345,7 @@
     "middleName": "Andrea",
     "firstLastName": "Martinez",
     "middleLastName": "Rodriguez",
-    "password": "Paula:v",
+    "password": "Paula:v123",
     "codeStudent": 20172017125,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Educación Infantil"
@@ -358,7 +358,7 @@
     "middleName": "Isaac",
     "firstLastName": "Quiroz",
     "middleLastName": "Ortiz",
-    "password": "Miguel:v",
+    "password": "Miguel:v12",
     "codeStudent": 20182018226,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Estadística"
@@ -371,7 +371,7 @@
     "middleName": "Urbana",
     "firstLastName": "Perez",
     "middleLastName": "Fernandez",
-    "password": "Luisa:v",
+    "password": "Luisa:v123",
     "codeStudent": 20212021127,
     "faculty": "Tecnológica",
     "degreeProgram": "Tecnología en Construcciones Civiles"
@@ -384,7 +384,7 @@
     "middleName": "Andres",
     "firstLastName": "Gomez",
     "middleLastName": "Lopez",
-    "password": "Camilo:v",
+    "password": "Camilo:v12",
     "codeStudent": 20182018128,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Ingeniería Geográfica y Ambiental"
@@ -410,7 +410,7 @@
     "middleName": "Santiago",
     "firstLastName": "Jimenez",
     "middleLastName": "Perez",
-    "password": "Oscar:v",
+    "password": "Oscar:v123",
     "codeStudent": 20202020230,
     "faculty": "Artes",
     "degreeProgram": "Teatro"
@@ -423,7 +423,7 @@
     "middleName": "Olivia",
     "firstLastName": "Romero",
     "middleLastName": "Silva",
-    "password": "Sonia:v",
+    "password": "Sonia:v123",
     "codeStudent": 20172017131,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Química"
@@ -436,7 +436,7 @@
     "middleName": "Ignacio",
     "firstLastName": "Morales",
     "middleLastName": "Cortes",
-    "password": "Miguel:v",
+    "password": "Miguel:v12",
     "codeStudent": 20182018232,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Geología"
@@ -449,7 +449,7 @@
     "middleName": "Ursula",
     "firstLastName": "Fernandez",
     "middleLastName": "Ramirez",
-    "password": "Luisa:v",
+    "password": "Luisa:v123",
     "codeStudent": 20212021133,
     "faculty": "Tecnológica",
     "degreeProgram": "Ingeniería Electromecánica"
@@ -462,7 +462,7 @@
     "middleName": "Urbano",
     "firstLastName": "Torres",
     "middleLastName": "Martinez",
-    "password": "Julio:v",
+    "password": "Julio:v123",
     "codeStudent": 20182018134,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Gestión Ambiental"
@@ -475,7 +475,7 @@
     "middleName": "Isabel",
     "firstLastName": "Morales",
     "middleLastName": "Jimenez",
-    "password": "Carmen:v",
+    "password": "Carmen:v123",
     "codeStudent": 20192019135,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería Agroindustrial"
@@ -488,7 +488,7 @@
     "middleName": "Omar",
     "firstLastName": "Castillo",
     "middleLastName": "Suarez",
-    "password": "Rodrigo:v",
+    "password": "Rodrigo:v12",
     "codeStudent": 20202020236,
     "faculty": "Artes",
     "degreeProgram": "Danza"
@@ -501,7 +501,7 @@
     "middleName": "Ursula",
     "firstLastName": "Jimenez",
     "middleLastName": "Vargas",
-    "password": "Susana:v",
+    "password": "Susana:v12",
     "codeStudent": 20172017137,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Historia"
@@ -514,7 +514,7 @@
     "middleName": "Isaac",
     "firstLastName": "Gutierrez",
     "middleLastName": "Cortes",
-    "password": "Mario:v",
+    "password": "Mario:v123",
     "codeStudent": 20182018238,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Microbiología"
@@ -527,7 +527,7 @@
     "middleName": "Urbana",
     "firstLastName": "Rodriguez",
     "middleLastName": "Fernandez",
-    "password": "Laura:v",
+    "password": "Laura:v123",
     "codeStudent": 20212021139,
     "faculty": "Tecnológica",
     "degreeProgram": "Ingeniería Mecatrónica"
@@ -540,7 +540,7 @@
     "middleName": "Uriel",
     "firstLastName": "Rojas",
     "middleLastName": "Perez",
-    "password": "Juan:v",
+    "password": "Juan:v1234",
     "codeStudent": 20182018140,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Ingeniería Sanitaria"
@@ -566,7 +566,7 @@
     "middleName": "Oscar",
     "firstLastName": "Jimenez",
     "middleLastName": "Silva",
-    "password": "Rodrigo:v",
+    "password": "Rodrigo:v1",
     "codeStudent": 20202020242,
     "faculty": "Artes",
     "degreeProgram": "Fotografía"
@@ -579,7 +579,7 @@
     "middleName": "Ursula",
     "firstLastName": "Fernandez",
     "middleLastName": "Gomez",
-    "password": "Susana:v",
+    "password": "Susana:v12",
     "codeStudent": 20172017143,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Artes Visuales"
@@ -592,7 +592,7 @@
     "middleName": "Ignacio",
     "firstLastName": "Castillo",
     "middleLastName": "Rodriguez",
-    "password": "Miguel:v",
+    "password": "Miguel:v12",
     "codeStudent": 20182018244,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Ciencias Ambientales"
@@ -605,7 +605,7 @@
     "middleName": "Urbana",
     "firstLastName": "Moreno",
     "middleLastName": "Rodriguez",
-    "password": "Lucia:v",
+    "password": "Lucia:v123",
     "codeStudent": 20212021145,
     "faculty": "Tecnológica",
     "degreeProgram": "Ingeniería en Automatización"
@@ -618,7 +618,7 @@
     "middleName": "Ulises",
     "firstLastName": "Torres",
     "middleLastName": "Castro",
-    "password": "Julio:v",
+    "password": "Julio:v123",
     "codeStudent": 20182018146,
     "faculty": "Medio Ambiente y Recursos Naturales",
     "degreeProgram": "Ingeniería Topográfica"
@@ -631,7 +631,7 @@
     "middleName": "Isabel",
     "firstLastName": "Gomez",
     "middleLastName": "Jimenez",
-    "password": "Camila:v",
+    "password": "Camila:v123",
     "codeStudent": 20192019147,
     "faculty": "Ingeniería",
     "degreeProgram": "Ingeniería Química"
@@ -657,7 +657,7 @@
     "middleName": "Ursula",
     "firstLastName": "Quiroz",
     "middleLastName": "Torres",
-    "password": "Susana:v",
+    "password": "Susana:v12",
     "codeStudent": 20172017149,
     "faculty": "Ciencias y Educación",
     "degreeProgram": "Licenciatura en Español y Literatura"
@@ -670,7 +670,7 @@
     "middleName": "Ignacio",
     "firstLastName": "Martinez",
     "middleLastName": "Vargas",
-    "password": "Miguel:v",
+    "password": "Miguel:v12",
     "codeStudent": 20182018250,
     "faculty": "Ciencias Matemáticas y Naturales",
     "degreeProgram": "Ingeniería Geológica"
