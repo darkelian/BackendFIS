@@ -38,6 +38,8 @@ public class TypeResourceService {
                 .serviceUnit(unit)
                 .build();
 
+        final TypeResource savedTypeResource = typeResourceRepository.save(typeResource);
+
         Set<Feature> features = dto.getFeatures().stream()
                 .map(featureDto -> {
                     DataType dataType;
@@ -46,16 +48,17 @@ public class TypeResourceService {
                     } catch (IllegalArgumentException e) {
                         throw new IllegalArgumentException("Tipo de dato no válido: " + featureDto.getType());
                     }
-                    return Feature.builder()
+                    Feature feature = Feature.builder()
                             .name(featureDto.getName())
                             .type(dataType)
-                            .typeResource(typeResource)
+                            .typeResource(savedTypeResource)
                             .build();
+                    return featureRepository.save(feature);
                 })
                 .collect(Collectors.toSet());
 
-        typeResource.setFeatures(features);
-        return typeResourceRepository.save(typeResource);
+        savedTypeResource.setFeatures(features);
+        return typeResourceRepository.save(savedTypeResource);
     }
 
     // Obtener el tipo de recurso de una unidad de servicio

@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
         response.setSuccess(false);
         response.setData(errors);
         response.setCount(1);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ExceptionHandler(BadCredentialsException.class)

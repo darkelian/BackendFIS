@@ -90,7 +90,7 @@ public class ResourceController {
         String rol = RoleUtil.getPrimaryRole(userRepository, username);
         List<ResourceTypeResponseDTO> resourceTypes = typeResourceService.getResourceTypesByServiceUnit(username, rol);
         return ResponseEntity.ok(
-                resourceTypes.isEmpty() ? new StandardResponseDTO().fullSuccess("No se encontraron tipos de recursos")
+                resourceTypes.isEmpty() ? new StandardResponseDTO().failSuccess("No se encontraron tipos de recursos")
                         : new StandardResponseDTO().fullSuccess(resourceTypes));
     }
 

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FeatureDTO {
     private Long id;
+    private String value;
     private String name;
     private String type;
 }

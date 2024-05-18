@@ -60,9 +60,9 @@ public class ScheduleController {
     @Operation(summary = "Obtener disponibilidad horaria de la unidad de servicio")
     public ResponseEntity<StandardResponseDTO> getAvailability(@RequestParam String username) {
         StandardResponseDTO successResponse = new StandardResponseDTO();
-        successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(
-                username));
-        return ResponseEntity.ok(successResponse);
+        return ResponseEntity.ok(scheduleService.getScheduleByServiceUnitName(username).getAvailability().isEmpty()
+                ? successResponse.failSuccess("No hay disponibilidad horaria registrada")
+                : successResponse.fullSuccess(scheduleService.getScheduleByServiceUnitName(username)));
     }
 
     private boolean isValidDateFormat(String format, String value) {
