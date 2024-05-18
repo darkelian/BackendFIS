@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.main.dtos.FeatureDTO;
 import com.main.dtos.ResourceTypeDto;
 import com.main.dtos.ResourceTypeResponseDTO;
 import com.main.models.Feature;
 import com.main.models.ServiceUnit;
 import com.main.models.TypeResource;
 import com.main.repositories.EmployeeRepository;
+import com.main.repositories.FeatureRepository;
 import com.main.repositories.ServiceUnitRepository;
 import com.main.repositories.TypeResourceRepository;
 import com.main.models.DataType;
@@ -26,6 +28,7 @@ public class TypeResourceService {
     private final TypeResourceRepository typeResourceRepository;
     private final ServiceUnitRepository serviceUnitRepository;
     private final EmployeeRepository employeeRepository;
+    private final FeatureRepository featureRepository;
 
     // Crear un nuevo tipo de recurso
     @Transactional
@@ -84,5 +87,30 @@ public class TypeResourceService {
             dto.setServiceUnitName(typeResource.getServiceUnit().getName());
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    // Obtener las características de un tipo de recurso por nombre para empleados
+    @Transactional
+    public List<FeatureDTO> findResourceTypeFeaturesByName(String username, String name) {
+        ServiceUnit serviceUnit = serviceUnitRepository.findByEmployeeUsername(username)
+                .orElseThrow(() -> new IllegalStateException(
+                        "No se encontró la unidad de servicio para el empleado proporcionado"));
+
+        TypeResource typeResource = typeResourceRepository.findByNameAndServiceUnitId(name, serviceUnit.getId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
+
+        return featureRepository.findByTypeResourceId(typeResource.getId())
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private FeatureDTO convertToDto(Feature feature) {
+        FeatureDTO dto = new FeatureDTO();
+        dto.setId(feature.getId());
+        dto.setName(feature.getName());
+        dto.setType(feature.getType().name());
+        return dto;
     }
 }

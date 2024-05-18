@@ -1,8 +1,10 @@
 package com.main.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.dtos.FeatureDTO;
 import com.main.dtos.ResourceCreationDTO;
 import com.main.dtos.ResourceTypeDto;
 import com.main.dtos.ResourceTypeResponseDTO;
@@ -90,5 +92,21 @@ public class ResourceController {
         return ResponseEntity.ok(
                 resourceTypes.isEmpty() ? new StandardResponseDTO().fullSuccess("No se encontraron tipos de recursos")
                         : new StandardResponseDTO().fullSuccess(resourceTypes));
+    }
+
+    // Consultar las características de un tipo de recurso
+    @GetMapping("/types/features")
+    @Tag(name = "Empleados")
+    @Operation(summary = "Buscar tipos de recursos por nombre para empleados y obtener sus características")
+    public ResponseEntity<StandardResponseDTO> findResourceTypesWithFeaturesByName(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam String name) {
+        String username = JwtUtil.extractUsernameFromHeader(jwtService, authorizationHeader);
+        List<FeatureDTO> features = typeResourceService.findResourceTypeFeaturesByName(username, name);
+
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess(features.isEmpty()
+                ? "No se encontraron características para el tipo de recurso"
+                : features);
+        return ResponseEntity.ok(response);
     }
 }

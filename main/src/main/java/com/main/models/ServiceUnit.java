@@ -1,7 +1,5 @@
 package com.main.models;
 
-
-
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -43,6 +41,9 @@ public class ServiceUnit {
 
     @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TypeResource> typeResources;
+
+    @OneToMany(mappedBy = "serviceUnit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Employee> employees;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
