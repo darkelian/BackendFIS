@@ -12,7 +12,7 @@ import com.main.dtos.EmployeeResponse;
 import com.main.models.Employee;
 import com.main.models.ServiceUnit;
 import com.main.repositories.EmployeeRepository;
-import com.main.repositories.ServiceUnityRepository;
+import com.main.repositories.ServiceUnitRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +22,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final ServiceUnityRepository serviceUnityRepository;
+    private final ServiceUnitRepository serviceUnityRepository;
 
     // Traer todos los empleados
     @Transactional(readOnly = true)

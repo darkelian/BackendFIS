@@ -18,7 +18,7 @@ import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.AvailabilitySchedule;
 import com.main.models.ServiceUnit;
 import com.main.repositories.AvailabilityScheduleRepository;
-import com.main.repositories.ServiceUnityRepository;
+import com.main.repositories.ServiceUnitRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +29,7 @@ import lombok.Data;
 public class ScheduleService {
 
     private final AvailabilityScheduleRepository scheduleRepository;
-    private final ServiceUnityRepository serviceUnitRepository;
+    private final ServiceUnitRepository serviceUnitRepository;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");

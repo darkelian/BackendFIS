@@ -15,7 +15,7 @@ import com.main.models.ServiceUnit;
 import com.main.models.Student;
 import com.main.models.User;
 import com.main.repositories.EmployeeRepository;
-import com.main.repositories.ServiceUnityRepository;
+import com.main.repositories.ServiceUnitRepository;
 import com.main.repositories.StudentRepository;
 import com.main.repositories.UserRepository;
 
@@ -30,7 +30,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
-    private final ServiceUnityRepository serviceUnityRepository;
+    private final ServiceUnitRepository serviceUnityRepository;
 
     // Metodo generico para la creación de usuarios
     private User createUser(String username, String password, Role role) {

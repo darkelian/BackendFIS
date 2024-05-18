@@ -21,4 +21,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findUnassignedEmployees();
 
     Optional<Employee> findByDocument(Long document);
+
+    // Traer un empleado por su nombre de usuario
+    @Query("SELECT e FROM Employee e WHERE e.user.username = :username")
+    Optional<Employee> findByUsername(@Param("username") String username);
 }

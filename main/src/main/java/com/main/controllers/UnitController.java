@@ -39,7 +39,7 @@ public class UnitController {
         List<EmployeeResponse> employeeResponses = employeeService.getByServiceUnitEmployees(username,
                 includeUnassigned);
         return ResponseEntity.ok(
-                employeeResponses.size() == 0
+                employeeResponses.isEmpty()
                         ? new StandardResponseDTO().failSuccess("No se encontraron empleados para " + username)
                         : new StandardResponseDTO().fullSuccess(employeeResponses));
     }

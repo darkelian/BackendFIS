@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.main.dtos.ServicesUnitResponse;
 import com.main.models.ServiceUnit;
-import com.main.repositories.ServiceUnityRepository;
+import com.main.repositories.ServiceUnitRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.Data;
 @Service
 @AllArgsConstructor
 public class UnitService {
-    private final ServiceUnityRepository serviceUnityRepository;
+    private final ServiceUnitRepository serviceUnityRepository;
 
     @Transactional(readOnly = true)
     public List<ServicesUnitResponse> getAllServicesUnit() {
