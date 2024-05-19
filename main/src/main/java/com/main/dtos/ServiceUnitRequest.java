@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ServiceUnitRequest {
 
     @NotNull(message = "El tiempo de granularidad en minutos es obligatorio.")
-    @Min(value = 0,message = "El  tiempo no es valido")
+    @Min(value = 15,message = "El  tiempo no es valido debe ser minimamente de 15 minutos.")
     private int granularityInMinutes;
 
     @NotBlank(message = "El nombre es obligatorio")

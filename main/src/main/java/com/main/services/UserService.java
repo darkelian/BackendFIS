@@ -113,6 +113,7 @@ public class UserService {
     }
 
     // Registar una Unidad de servicio
+    @Transactional
     public ServiceUnit registerServiceUnit(ServiceUnitRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());

@@ -12,11 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.main.dtos.StandardResponseDTO;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -29,10 +25,7 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        StandardResponseDTO response = new StandardResponseDTO();
-        response.setSuccess(false);
-        response.setErrors(errors);
-        response.setCount(errors.size());
+        StandardResponseDTO response = new StandardResponseDTO(false, null, null, errors, errors.size());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -40,22 +33,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<StandardResponseDTO> handleAuthenticationException(AuthenticationException ex) {
         List<String> errors = List.of(ex.getMessage());
-        StandardResponseDTO response = new StandardResponseDTO();
-        response.setSuccess(false);
-        response.setErrors(errors);
-        response.setCount(1);
+        StandardResponseDTO response = new StandardResponseDTO(false, null, null, errors, 1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Manejo de errores de credenciales inválidas
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<StandardResponseDTO> handleBadCredentialsException(BadCredentialsException ex) {
-        List<String> errors = new ArrayList<>();
-        errors.add("Credenciales inválidas. Por favor, intente nuevamente.");
-        StandardResponseDTO response = new StandardResponseDTO();
-        response.setErrors(errors);
-        response.setSuccess(false);
-        response.setCount(1);
+        List<String> errors = List.of("Credenciales inválidas. Por favor, intente nuevamente.");
+        StandardResponseDTO response = new StandardResponseDTO(false, null, null, errors, 1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -63,30 +49,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<StandardResponseDTO> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex) {
-        Map<String, Object> errors = new HashMap<>();
-        errors.put("timestamp", Instant.now());
-        errors.put("status", HttpStatus.CONFLICT.value());
-        errors.put("errors", ex.getMostSpecificCause().getMessage());
-        StandardResponseDTO response = new StandardResponseDTO();
-        response.setSuccess(false);
-        // response.setErrors(errors);
-        response.setCount(1);
-
+        List<String> errors = List.of("Error de integridad de datos: " + ex.getMostSpecificCause().getMessage());
+        StandardResponseDTO response = new StandardResponseDTO(false, null, null, errors, 1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Manejo de errores de recurso no encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        Map<String, Object> errors = new HashMap<>();
-        errors.put("timestamp", Instant.now());
-        errors.put("status", HttpStatus.NOT_FOUND.value());
-        errors.put("errors", ex.getMessage());
-        StandardResponseDTO response = new StandardResponseDTO();
-        response.setSuccess(false);
-        // response.setErrors(errors);
-        response.setCount(1);
-
+        List<String> errors = List.of(ex.getMessage());
+        StandardResponseDTO response = new StandardResponseDTO(false, null, null, errors, 1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
