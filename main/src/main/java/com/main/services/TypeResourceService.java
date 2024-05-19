@@ -109,6 +109,22 @@ public class TypeResourceService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<FeatureDTO> findResourceTypeFeaturesByUnitAndName(String unitServiceName, String resourceName) {
+        ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(unitServiceName)
+                .orElseThrow(
+                        () -> new IllegalStateException("No se encontró la unidad de servicio: " + unitServiceName));
+
+        TypeResource typeResource = typeResourceRepository.findByNameAndServiceUnitId(resourceName, serviceUnit.getId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
+
+        return featureRepository.findByTypeResourceId(typeResource.getId())
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     private FeatureDTO convertToDto(Feature feature) {
         FeatureDTO dto = new FeatureDTO();
         dto.setId(feature.getId());

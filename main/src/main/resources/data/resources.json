@@ -1,0 +1,92 @@
+[
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Multímetros",
+    "name": "Multímetro A",
+    "values": ["0-1000V", "0-10A", "±0.5%", "20"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Osciloscopios",
+    "name": "Osciloscopio B",
+    "values": ["1Hz-200MHz", "4", "8-bit"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Resistencias",
+    "name": "Resistencia 1kOhm",
+    "values": ["1000", "±5%", "0.25", "200"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Capacitores",
+    "name": "Capacitor 47uF",
+    "values": ["47", "50", "Cerámico", "150"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Generador de Funciones",
+    "name": "Generador A",
+    "values": ["0.1Hz-10MHz", "Senoidal, Cuadrada, Triangular", "10", "5"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Fuente de Alimentación",
+    "name": "Fuente A",
+    "values": ["30", "5", "3"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Mesa de Trabajo",
+    "name": "Mesa A",
+    "values": ["180x90cm", "Madera", "true", "15"]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "typeName": "Estación de Soldadura",
+    "name": "Estación A",
+    "values": ["450", "Biselada, Cónica, Redonda", "true", "10"]
+  },
+  {
+    "unitService": "Espacios Fisicos",
+    "typeName": "Salón",
+    "name": "Salón 201",
+    "values": ["30", "true", "true"]
+  },
+  {
+    "unitService": "Espacios Fisicos",
+    "typeName": "Sala de Entretenimiento",
+    "name": "Sala 1",
+    "values": ["300", "true", "true", "true"]
+  },
+  {
+    "unitService": "Biblioteca",
+    "typeName": "Libros",
+    "name": "Cien Años de Soledad",
+    "values": ["Gabriel García Márquez", "978-3-16-148410-0", "Editorial Sudamericana", "1967", "471", "Español", "20"]
+  },
+  {
+    "unitService": "Biblioteca",
+    "typeName": "Revistas",
+    "name": "National Geographic Marzo 2024",
+    "values": ["National Geographic", "March 2024", "2024-03-01", "Inglés", "30"]
+  },
+  {
+    "unitService": "Biblioteca",
+    "typeName": "Periódicos",
+    "name": "El Tiempo 18 de Mayo 2024",
+    "values": ["El Tiempo", "2024-05-18", "Español", "50"]
+  },
+  {
+    "unitService": "Biblioteca",
+    "typeName": "Computadoras",
+    "name": "Computadora A",
+    "values": ["Intel Core i7", "16", "512", "Windows 10", "20"]
+  },
+  {
+    "unitService": "Biblioteca",
+    "typeName": "Salas de Estudio",
+    "name": "Sala de Estudio 1",
+    "values": ["6", "Proyector, Pizarra", "true", "5"]
+  }
+]

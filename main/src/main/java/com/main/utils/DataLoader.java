@@ -8,10 +8,15 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
+import com.main.dtos.FeatureDTO;
+import com.main.dtos.ResourceCreationDTO;
+import com.main.dtos.ResourceCreationJson;
 import com.main.dtos.ResourceTypeDto;
+import com.main.dtos.ResourceTypeResponseDTO;
 import com.main.dtos.ResourceTypeWithUnitDto;
 import com.main.dtos.ServiceUnitRequest;
 import com.main.dtos.StudentRequest;
@@ -19,6 +24,7 @@ import com.main.models.ServiceUnit;
 import com.main.dtos.ScheduleRequest;
 import com.main.dtos.ServiceUnitAvailabilityDTO;
 import com.main.services.UserService;
+import com.main.services.ResourceService;
 import com.main.services.ScheduleService;
 import com.main.services.TypeResourceService;
 import com.main.services.UnitService;
@@ -31,6 +37,7 @@ public class DataLoader implements CommandLineRunner {
     private final UserService userService;
     private final ScheduleService scheduleService;
     private final TypeResourceService typeResourceService;
+    private final ResourceService resourceService;
     private final UnitService unitService;
     private final ObjectMapper objectMapper;
     private final ResourceLoader resourceLoader;
@@ -50,6 +57,8 @@ public class DataLoader implements CommandLineRunner {
             }, this::registerSchedule);
             loadData("classpath:data/types.json", new TypeReference<List<ResourceTypeWithUnitDto>>() {
             }, this::registerResourceType);
+            loadData("classpath:data/resources.json", new TypeReference<List<ResourceCreationJson>>() {
+            }, this::registerResources);
         }
     }
 
@@ -78,5 +87,39 @@ public class DataLoader implements CommandLineRunner {
                         "Unidad de servicio no encontrada: " + resource.getUnitService()));
         ResourceTypeDto dto = new ResourceTypeDto(resource.getName(), resource.getFeatures());
         typeResourceService.createTypeResource(dto, serviceUnit);
+    }
+
+    private void registerResources(ResourceCreationJson resourceJson) {
+        ServiceUnit serviceUnit = unitService.getServicesUnitByUsername(resourceJson.getUnitService())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Unidad de servicio no encontrada: " + resourceJson.getUnitService()));
+
+        List<ResourceTypeResponseDTO> resourceTypes = typeResourceService
+                .getResourceTypesByServiceUnit(serviceUnit.getName(), "UNIT");
+
+        ResourceTypeResponseDTO resourceType = resourceTypes.stream()
+                .filter(type -> type.getName().equals(resourceJson.getTypeName()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Tipo de recurso no encontrado: " + resourceJson.getTypeName()));
+
+        List<FeatureDTO> features = typeResourceService
+                .findResourceTypeFeaturesByUnitAndName(resourceJson.getUnitService(), resourceJson.getTypeName());
+
+        List<FeatureDTO> resourceFeatures = features.stream().map(feature -> {
+            FeatureDTO featureDto = new FeatureDTO();
+            featureDto.setId(feature.getId());
+            featureDto.setValue(resourceJson.getValues().get(features.indexOf(feature)));
+            featureDto.setName(feature.getName());
+            featureDto.setType(feature.getType());
+            return featureDto;
+        }).collect(Collectors.toList());
+
+        ResourceCreationDTO resourceDTO = new ResourceCreationDTO();
+        resourceDTO.setName(resourceJson.getName());
+        resourceDTO.setTypeId(resourceType.getId());
+        resourceDTO.setFeatures(resourceFeatures);
+
+        resourceService.createResource(resourceDTO);
     }
 }
