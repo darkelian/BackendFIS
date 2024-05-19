@@ -18,11 +18,11 @@ import lombok.Data;
 @Service
 @AllArgsConstructor
 public class UnitService {
-    private final ServiceUnitRepository serviceUnityRepository;
+    private final ServiceUnitRepository serviceUnitRepository;
 
     @Transactional(readOnly = true)
     public List<ServicesUnitResponse> getAllServicesUnit() {
-        return serviceUnityRepository.findAll().stream()
+        return serviceUnitRepository.findAll().stream()
                 .map(serviceUnit -> {
                     return new ServicesUnitResponse(
                             serviceUnit.getId(),
@@ -34,7 +34,12 @@ public class UnitService {
 
     @Transactional(readOnly = true)
     public Optional<ServiceUnit> getServicesUnitByUsername(String username) {
-        return serviceUnityRepository.findByUsername(username);
+        return serviceUnitRepository.findByUsername(username);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ServiceUnit> getAllServiceUnits() {
+        return serviceUnitRepository.findAll();
     }
 
 }

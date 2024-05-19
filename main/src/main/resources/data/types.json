@@ -1,0 +1,154 @@
+[
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Multímetros",
+    "features": [
+      { "name": "Rango de Voltaje", "type": "STRING" },
+      { "name": "Rango de Corriente", "type": "STRING" },
+      { "name": "Precisión", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Osciloscopios",
+    "features": [
+      { "name": "Rango de Frecuencia", "type": "STRING" },
+      { "name": "Número de Canales", "type": "NUMBER" },
+      { "name": "Resolución", "type": "STRING" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Resistencias",
+    "features": [
+      { "name": "Valor de Resistencia", "type": "NUMBER" },
+      { "name": "Tolerancia", "type": "STRING" },
+      { "name": "Potencia (Watt)", "type": "NUMBER" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Capacitores",
+    "features": [
+      { "name": "Capacidad (uF)", "type": "NUMBER" },
+      { "name": "Voltaje Nominal (V)", "type": "NUMBER" },
+      { "name": "Tipo", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Generador de Funciones",
+    "features": [
+      { "name": "Rango de Frecuencia", "type": "STRING" },
+      { "name": "Tipos de Onda", "type": "STRING" },
+      { "name": "Amplitud Máxima (V)", "type": "NUMBER" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Fuente de Alimentación",
+    "features": [
+      { "name": "Voltaje de Salida (V)", "type": "NUMBER" },
+      { "name": "Corriente Máxima (A)", "type": "NUMBER" },
+      { "name": "Número de Canales", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Mesa de Trabajo",
+    "features": [
+      { "name": "Tamaño", "type": "STRING" },
+      { "name": "Material", "type": "STRING" },
+      { "name": "Altura Ajustable", "type": "BOOLEAN" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Laboratorio Física",
+    "name": "Estación de Soldadura",
+    "features": [
+      { "name": "Temperatura Máxima (°C)", "type": "NUMBER" },
+      { "name": "Tipos de Puntas Disponibles", "type": "STRING" },
+      { "name": "Incluye Extractor de Humo", "type": "BOOLEAN" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Espacios Fisicos",
+    "name": "Salón",
+    "features": [
+      { "name": "Capacidad", "type": "NUMBER" },
+      { "name": "Sillas móviles", "type": "BOOLEAN" },
+      { "name": "Mesas móviles", "type": "BOOLEAN" }
+    ]
+  },
+  {
+    "unitService": "Espacios Fisicos",
+    "name": "Sala de Entretenimiento",
+    "features": [
+      { "name": "Capacidad", "type": "NUMBER" },
+      { "name": "Permite distribución de alimentos", "type": "BOOLEAN" },
+      { "name": "Permite amplificación de audio", "type": "BOOLEAN" },
+      { "name": "Se puede aislar", "type": "BOOLEAN" }
+    ]
+  },
+  {
+    "unitService": "Biblioteca",
+    "name": "Libros",
+    "features": [
+      { "name": "Autor", "type": "STRING" },
+      { "name": "ISBN", "type": "STRING" },
+      { "name": "Editorial", "type": "STRING" },
+      { "name": "Año de Publicación", "type": "NUMBER" },
+      { "name": "Número de Páginas", "type": "NUMBER" },
+      { "name": "Idioma", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Biblioteca",
+    "name": "Revistas",
+    "features": [
+      { "name": "Nombre de la Revista", "type": "STRING" },
+      { "name": "Número de Edición", "type": "STRING" },
+      { "name": "Fecha de Publicación", "type": "STRING" },
+      { "name": "Idioma", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Biblioteca",
+    "name": "Periódicos",
+    "features": [
+      { "name": "Nombre del Periódico", "type": "STRING" },
+      { "name": "Fecha de Publicación", "type": "STRING" },
+      { "name": "Idioma", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Biblioteca",
+    "name": "Computadoras",
+    "features": [
+      { "name": "Procesador", "type": "STRING" },
+      { "name": "Memoria RAM", "type": "NUMBER" },
+      { "name": "Disco Duro", "type": "NUMBER" },
+      { "name": "Sistema Operativo", "type": "STRING" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  },
+  {
+    "unitService": "Biblioteca",
+    "name": "Salas de Estudio",
+    "features": [
+      { "name": "Capacidad", "type": "NUMBER" },
+      { "name": "Equipo Disponible", "type": "STRING" },
+      { "name": "Reservable", "type": "BOOLEAN" },
+      { "name": "Cantidad", "type": "NUMBER" }
+    ]
+  }
+]
