@@ -32,7 +32,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Servicios Backend de Integraservicios")
                         .description("Documentación detallada de los servicios y esquemas para los modulos de Integraservicios")
-                        .version("1.6.1"))
+                        .version("1.7.1"))
                 .addTagsItem(new Tag().name("Administrador").description("Operaciones del modulo de administrador"))
                 .addTagsItem(new Tag().name("Unidad de Servicios").description("Operaciones del módulo unidad de servicios"))
                 .addTagsItem(new Tag().name("Empleados").description("Operaciones del módulo empleados"))

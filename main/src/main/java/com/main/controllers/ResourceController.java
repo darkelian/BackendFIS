@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.dtos.AvailableResourceDTO;
 import com.main.dtos.FeatureDTO;
 import com.main.dtos.ResourceCreationDTO;
 import com.main.dtos.ResourceTypeDto;
@@ -107,6 +108,19 @@ public class ResourceController {
         StandardResponseDTO response = new StandardResponseDTO().fullSuccess(features.isEmpty()
                 ? "No se encontraron características para el tipo de recurso"
                 : features);
+        return ResponseEntity.ok(response);
+    }
+
+    // Consultar los recursos con estado de disponibles
+    @GetMapping("/available")
+    @Tag(name = "Estudiantes")
+    @Operation(summary = "Obtener recursos disponibles")
+    public ResponseEntity<StandardResponseDTO> getAvailableResources() {
+        List<AvailableResourceDTO> availableResources = resourceService.getAvailableResources();
+        StandardResponseDTO response = new StandardResponseDTO();
+        response.setSuccess(true);
+        response.setData(availableResources);
+        response.setCount(availableResources.size());
         return ResponseEntity.ok(response);
     }
 }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.main.dtos.AvailableResourceDTO;
 import com.main.dtos.ResourceCreationDTO;
 import com.main.models.Feature;
 import com.main.models.Resource;
@@ -58,5 +59,20 @@ public class ResourceService {
 
         // Save the features after setting the resource and feature IDs
         resourceRepository.save(savedResource);
+    }
+
+    // Obtener los recursos disponibles
+    public List<AvailableResourceDTO> getAvailableResources() {
+        List<Resource> availableResources = resourceRepository.findByStatus(ResourceStatus.AVAILABLE);
+
+        return availableResources.stream().map(resource -> {
+            AvailableResourceDTO dto = new AvailableResourceDTO();
+            dto.setId(resource.getId());
+            dto.setName(resource.getName());
+            dto.setTypeName(resource.getType().getName());
+            dto.setServiceUnitName(resource.getType().getServiceUnit().getName());
+            dto.setStatus(resource.getStatus().toString());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }
