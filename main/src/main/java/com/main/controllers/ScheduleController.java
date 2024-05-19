@@ -1,8 +1,8 @@
 package com.main.controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.text.ParseException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +47,7 @@ public class ScheduleController {
         if (availabilityDTO.getAvailability().isEmpty()
                 || availabilityDTO.getAvailability().get(0).getDate() == null
                 || availabilityDTO.getAvailability().get(0).getTimeSlots().isEmpty()
-                || !isValidDateFormat("yyyy-MM-dd", availabilityDTO.getAvailability().get(0).getDate())) {
+                || !isValidDateFormat("dd/MM/yyyy", availabilityDTO.getAvailability().get(0).getDate())) {
             throw new DataIntegrityViolationException("No se puede registrar la disponibilidad");
         }
         scheduleService.createSchedule(availabilityDTO, username);

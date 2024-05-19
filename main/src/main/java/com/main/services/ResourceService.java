@@ -10,6 +10,7 @@ import com.main.models.Feature;
 import com.main.models.Resource;
 import com.main.models.ResourceFeatureId;
 import com.main.models.ResourceFeatures;
+import com.main.models.ResourceStatus;
 import com.main.models.TypeResource;
 import com.main.repositories.FeatureRepository;
 import com.main.repositories.ResourceRepository;
@@ -36,6 +37,7 @@ public class ResourceService {
         Resource resource = new Resource();
         resource.setName(resourceDTO.getName());
         resource.setType(typeResource);
+        resource.setStatus(ResourceStatus.AVAILABLE);
 
         // Save resource first to get the generated ID
         final Resource savedResource = resourceRepository.save(resource);
