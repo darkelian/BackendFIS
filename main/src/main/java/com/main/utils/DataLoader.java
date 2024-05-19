@@ -13,7 +13,10 @@ import com.main.dtos.AdminRequest;
 import com.main.dtos.EmployeeRequest;
 import com.main.dtos.ServiceUnitRequest;
 import com.main.dtos.StudentRequest;
+import com.main.dtos.ScheduleRequest;
+import com.main.dtos.ServiceUnitAvailabilityDTO;
 import com.main.services.UserService;
+import com.main.services.ScheduleService;
 
 import lombok.AllArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.AllArgsConstructor;
 @Component
 public class DataLoader implements CommandLineRunner {
     private final UserService userService;
+    private final ScheduleService scheduleService;
     private final ObjectMapper objectMapper;
     private final ResourceLoader resourceLoader;
 
@@ -35,6 +39,8 @@ public class DataLoader implements CommandLineRunner {
             }, userService::registerEmployee);
             loadData("classpath:data/students.json", new TypeReference<List<StudentRequest>>() {
             }, userService::registerStudent);
+            loadData("classpath:data/schedules.json", new TypeReference<List<ScheduleRequest>>() {
+            }, this::registerSchedule);
         }
     }
 
@@ -46,6 +52,11 @@ public class DataLoader implements CommandLineRunner {
         } catch (Exception e) {
             throw new RuntimeException("Failed to load data from: " + path, e);
         }
+    }
+
+    private void registerSchedule(ScheduleRequest scheduleRequest) {
+        scheduleService.createSchedule(new ServiceUnitAvailabilityDTO(scheduleRequest.getAvailability()),
+                scheduleRequest.getUsername());
     }
 
     private boolean isDatabaseEmpty() {
