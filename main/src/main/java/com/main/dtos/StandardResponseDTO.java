@@ -17,6 +17,8 @@ public class StandardResponseDTO {
     private String message = null;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object data = null;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<String> errors = null;
     private int count;
 
     public StandardResponseDTO fullSuccess(Object data) {

@@ -13,54 +13,53 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.main.dtos.StandardResponseDTO;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Manejo de errores de validación de campos
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, Object> errors = new HashMap<>();
-        errors.put("timestamp", Instant.now());
-        errors.put("status", HttpStatus.BAD_REQUEST.value());
-        errors.put("errors", ex.getBindingResult().getFieldErrors().stream()
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
         StandardResponseDTO response = new StandardResponseDTO();
         response.setSuccess(false);
-        response.setData(errors);
-        response.setCount(ex.getErrorCount());
+        response.setErrors(errors);
+        response.setCount(errors.size());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Manejo de errores de autenticación
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<StandardResponseDTO> handleAuthenticationException(AuthenticationException ex) {
-        Map<String, Object> errors = new HashMap<>();
-        errors.put("timestamp", Instant.now());
-        errors.put("status", HttpStatus.UNAUTHORIZED.value());
-        errors.put("errors", ex.getMessage());
+        List<String> errors = List.of(ex.getMessage());
         StandardResponseDTO response = new StandardResponseDTO();
         response.setSuccess(false);
-        response.setData(errors);
+        response.setErrors(errors);
         response.setCount(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Manejo de errores de credenciales inválidas
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<StandardResponseDTO> handleBadCredentialsException(BadCredentialsException ex) {
-        Map<String, Object> errorDetails = new HashMap<>();
-        errorDetails.put("timestamp", Instant.now());
-        errorDetails.put("status", HttpStatus.UNAUTHORIZED.value());
-        errorDetails.put("errors", "Credenciales inválidas. Por favor, intente nuevamente.");
+        List<String> errors = new ArrayList<>();
+        errors.add("Credenciales inválidas. Por favor, intente nuevamente.");
         StandardResponseDTO response = new StandardResponseDTO();
-        response.setData(errorDetails);
+        response.setErrors(errors);
         response.setSuccess(false);
         response.setCount(1);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Manejo de errores de integridad de datos
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<StandardResponseDTO> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex) {
@@ -70,12 +69,13 @@ public class GlobalExceptionHandler {
         errors.put("errors", ex.getMostSpecificCause().getMessage());
         StandardResponseDTO response = new StandardResponseDTO();
         response.setSuccess(false);
-        response.setData(errors);
+        // response.setErrors(errors);
         response.setCount(1);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Manejo de errores de recurso no encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
         Map<String, Object> errors = new HashMap<>();
@@ -84,7 +84,7 @@ public class GlobalExceptionHandler {
         errors.put("errors", ex.getMessage());
         StandardResponseDTO response = new StandardResponseDTO();
         response.setSuccess(false);
-        response.setData(errors);
+        // response.setErrors(errors);
         response.setCount(1);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

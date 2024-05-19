@@ -42,12 +42,13 @@ public class AdminController {
     @Operation(summary = "Obtener todos los empleados")
     public ResponseEntity<StandardResponseDTO> getAllEmployees() {
         List<EmployeeResponse> employees = employeeService.getAllEmployees();
-        return ResponseEntity.ok(new StandardResponseDTO(true, null, employees, employees.size()));
+        return ResponseEntity.ok(new StandardResponseDTO(true, null, employees, null, employees.size()));
     }
+
     @GetMapping("/units")
     @Operation(summary = "Obtener todas las unidades de servicio")
     public ResponseEntity<StandardResponseDTO> getAllUnitService() {
         List<ServicesUnitResponse> unit = unitService.getAllServicesUnit();
-        return ResponseEntity.ok(new StandardResponseDTO(true, null, unit, unit.size()));
+        return ResponseEntity.ok(new StandardResponseDTO(true, null, unit, null, unit.size()));
     }
 }
