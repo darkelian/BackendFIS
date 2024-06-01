@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  java_app:
+    container_name: java_app
+    image: pee-java_app:1.0.3
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=admin
+    depends_on:
+      - java_db
+    networks:
+      - reverse_proxy
+    desploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      delay: 5s
+      placement:
+        constraints: [node.hostname == glud.udistrital.edu.co]
+        labels:
+          -"traefik.enable=true"
+          -"traefik.docker.network=reverse_proxy"
+          -"traefik.http.routers.pee-java_app:1.0.3.entrypoints=websecure"
+          -"traefik.http.pee-java_app:1.0.3.rule=Host(`integraservicios.glud.org`)"
+          -"traefik.http.services.pee-java_app:1.0.3.loadbalancer.server.port=8080"
+          -"traefik.http.routers.pee-java_app:1.0.3.tls=true"
+          -"traefik.http.routers.pee-java_app:1.0.3.tls.certresolver=production"
+  java_db:
+    container_name: java_db
+    image: postgres:16
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    networks:
+      - reverse_proxy
+networks:
+  reverse_proxy:
+    external: true

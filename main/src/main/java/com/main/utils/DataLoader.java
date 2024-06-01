@@ -63,10 +63,12 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private <T> void loadData(String path, TypeReference<List<T>> typeReference, Consumer<T> consumer) {
+        System.out.println("Cargando datos desde: " + path);
         Resource resource = resourceLoader.getResource(path);
         try {
             List<T> dataList = objectMapper.readValue(resource.getInputStream(), typeReference);
             dataList.forEach(consumer);
+            System.out.println("Datos cargados correctamente desde: " + path );
         } catch (Exception e) {
             throw new RuntimeException("Failed to load data from: " + path, e);
         }
