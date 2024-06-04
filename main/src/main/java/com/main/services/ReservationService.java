@@ -1,6 +1,7 @@
 package com.main.services;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Service;
 import com.main.dtos.EmployeeReservationResponseDTO;
 import com.main.dtos.ReservationRequestDTO;
 import com.main.dtos.ReservationResponseDTO;
+import com.main.dtos.ServiceUnitAvailabilityDTO;
 import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.Reservation;
 import com.main.models.Resource;
 import com.main.models.ResourceStatus;
+import com.main.models.ServiceUnit;
 import com.main.models.Student;
 import com.main.models.Employee;
 import com.main.repositories.ReservationRepository;
@@ -35,6 +38,7 @@ public class ReservationService {
     private final ResourceRepository resourceRepository;
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
+    private final ScheduleService scheduleService; // Suponiendo que este es el servicio que tiene getScheduleByServiceUnitName
 
     @Transactional
     public String createReservation(ReservationRequestDTO request, String username) {
@@ -67,6 +71,7 @@ public class ReservationService {
     }
 
     private void validateResourceAvailability(Resource resource, ReservationRequestDTO request) {
+        // Validar disponibilidad del recurso basado en cantidad solicitada
         List<Reservation> existingReservations = reservationRepository.findByResourceAndDate(resource,
                 request.getDate());
         int reservedQuantity = existingReservations.stream()
@@ -77,6 +82,23 @@ public class ReservationService {
 
         if (reservedQuantity + request.getQuantity() > resource.getAvailableQuantity()) {
             throw new DataIntegrityViolationException("El recurso no está disponible en la cantidad solicitada");
+        }
+
+        // Validar rango horario de la unidad de servicio
+        ServiceUnit serviceUnit = resource.getType().getServiceUnit();
+        ServiceUnitAvailabilityDTO availabilityDTO = scheduleService.getScheduleByServiceUnitName(serviceUnit.getName());
+        boolean isWithinSchedule = availabilityDTO.getAvailability().stream()
+                .anyMatch(dayAvailability -> 
+                    LocalDate.parse(dayAvailability.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).equals(request.getDate()) &&
+                    dayAvailability.getTimeSlots().stream().anyMatch(slot ->
+                        !request.getStartTime().isBefore(LocalTime.parse(slot.getStartTime())) &&
+                        !request.getEndTime().isAfter(LocalTime.parse(slot.getEndTime()))
+                    )
+                );
+
+        if (!isWithinSchedule) {
+            throw new DataIntegrityViolationException(
+                    "El horario de la reservación está fuera del rango horario permitido por la unidad de servicio");
         }
     }
 
