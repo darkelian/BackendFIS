@@ -127,16 +127,17 @@ public class ResourceController {
         return ResponseEntity.ok(response);
     }
 
-
     // Reservar un recurso
     @PostMapping("/reserve")
     @Tag(name = "Estudiantes")
     @Operation(summary = "Reservar un recurso")
-    public ResponseEntity<StandardResponseDTO> reserveResource(@RequestHeader("Authorization") String authorizationHeader,
+    public ResponseEntity<StandardResponseDTO> reserveResource(
+            @RequestHeader("Authorization") String authorizationHeader,
             @Validated @RequestBody ReservationRequestDTO request) {
         String username = JwtUtil.extractUsernameFromHeader(jwtService, authorizationHeader);
-        reservationService.createReservation(request, username);
-        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Recurso reservado exitosamente");
+        String reserve = reservationService.createReservation(request, username);
+        StandardResponseDTO response = new StandardResponseDTO()
+                .fullSuccess("Recurso " + reserve + " reservado exitosamente");
         return ResponseEntity.ok(response);
     }
 }

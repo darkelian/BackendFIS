@@ -13,4 +13,5 @@ public class AvailableResourceDTO {
     private String typeName;
     private String serviceUnitName;
     private String status;
+    private int availableQuantity;
 }

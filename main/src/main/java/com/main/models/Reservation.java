@@ -46,4 +46,10 @@ public class Reservation {
 
     @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
+    private LocalDate reservationDate;
+
+    @Column(nullable = false)
+    private int quantity;
 }

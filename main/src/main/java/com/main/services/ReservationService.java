@@ -1,5 +1,6 @@
 package com.main.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,6 +10,7 @@ import com.main.dtos.ReservationRequestDTO;
 import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.Reservation;
 import com.main.models.Resource;
+import com.main.models.ResourceStatus;
 import com.main.models.Student;
 import com.main.models.Employee;
 import com.main.repositories.ReservationRepository;
@@ -30,7 +32,7 @@ public class ReservationService {
     private final EmployeeRepository employeeRepository;
 
     @Transactional
-    public void createReservation(ReservationRequestDTO request, String username) {
+    public String createReservation(ReservationRequestDTO request, String username) {
         Resource resource = resourceRepository.findById(request.getResourceId())
                 .orElseThrow(() -> new ResourceNotFoundException("Recurso no encontrado"));
 
@@ -39,18 +41,19 @@ public class ReservationService {
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
 
-        // Validar la disponibilidad del recurso
-        List<Reservation> existingReservations = reservationRepository.findByResourceAndDate(resource, request.getDate());
-        boolean isAvailable = existingReservations.stream()
-                .noneMatch(reservation -> reservation.getStartTime().isBefore(request.getEndTime())
-                        && reservation.getEndTime().isAfter(request.getStartTime()));
+        // Validar la disponibilidad del recurso basado en la cantidad solicitada
+        List<Reservation> existingReservations = reservationRepository.findByResourceAndDate(resource,
+                request.getDate());
+        int reservedQuantity = existingReservations.stream()
+                .filter(reservation -> reservation.getStartTime().isBefore(request.getEndTime())
+                        && reservation.getEndTime().isAfter(request.getStartTime()))
+                .mapToInt(Reservation::getQuantity)
+                .sum();
 
-        if (!isAvailable) {
-            throw new DataIntegrityViolationException("El recurso no está disponible en el rango horario solicitado");
-        }
-
-        if (resource.getAvailableQuantity() <= 0) {
-            throw new DataIntegrityViolationException("No hay suficiente cantidad del recurso disponible");
+        if (request.getQuantity() > resource.getAvailableQuantity()) {
+            System.out.println("Cantidad disponible"+resource.getAvailableQuantity());
+            System.out.println("Cantidad solicitada"+(reservedQuantity + request.getQuantity()));
+            throw new DataIntegrityViolationException("El recurso no está disponible en la cantidad solicitada");
         }
 
         // Asignar un empleado responsable
@@ -64,11 +67,17 @@ public class ReservationService {
         reservation.setStartTime(request.getStartTime());
         reservation.setEndTime(request.getEndTime());
         reservation.setStatus("RESERVADO");
+        reservation.setQuantity(request.getQuantity());
+        reservation.setReservationDate(LocalDate.now());
         reservationRepository.save(reservation);
 
         // Decrementar la cantidad disponible del recurso
-        resource.setAvailableQuantity(resource.getAvailableQuantity() - 1);
+        resource.setAvailableQuantity(resource.getAvailableQuantity() - request.getQuantity());
+        if (resource.getAvailableQuantity() == 0) {
+            resource.setStatus(ResourceStatus.RESERVADO);
+        }
         resourceRepository.save(resource);
+        return resource.getName();
     }
 
     private Employee findAvailableEmployee(Resource resource) {
@@ -77,19 +86,5 @@ public class ReservationService {
             throw new DataIntegrityViolationException("No hay empleados disponibles para asignar");
         }
         return employees.get(0);
-    }
-
-    @Transactional
-    public void returnResource(Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
-
-        reservation.setStatus("DISPONIBLE");
-        reservationRepository.save(reservation);
-
-        // Incrementar la cantidad disponible del recurso
-        Resource resource = reservation.getResource();
-        resource.setAvailableQuantity(resource.getAvailableQuantity() + 1);
-        resourceRepository.save(resource);
     }
 }

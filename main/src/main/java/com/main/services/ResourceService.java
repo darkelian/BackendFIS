@@ -3,13 +3,10 @@ package com.main.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.main.dtos.AvailableResourceDTO;
-import com.main.dtos.FeatureDTO;
 import com.main.dtos.ResourceCreationDTO;
-import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.Feature;
 import com.main.models.Resource;
 import com.main.models.ResourceFeatureId;
@@ -36,27 +33,32 @@ public class ResourceService {
     @Transactional
     public void createResource(ResourceCreationDTO resourceDTO) {
         TypeResource typeResource = typeResourceRepository.findById(resourceDTO.getTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("ID de tipo de recurso no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type resource ID"));
+
+        // Verificar si hay una característica de cantidad
+        int totalQuantity = resourceDTO.getFeatures().stream()
+            .filter(featureDTO -> "Cantidad".equalsIgnoreCase(featureDTO.getName()))
+            .mapToInt(featureDTO -> {
+                try {
+                    return Integer.parseInt(featureDTO.getValue());
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Invalid quantity value");
+                }
+            }).findFirst().orElse(1);
 
         Resource resource = new Resource();
         resource.setName(resourceDTO.getName());
         resource.setType(typeResource);
         resource.setStatus(ResourceStatus.DISPONIBLE);
+        resource.setTotalQuantity(totalQuantity);
+        resource.setAvailableQuantity(totalQuantity);
 
-        // Determinar la cantidad disponible
-        Optional<FeatureDTO> quantityFeature = resourceDTO.getFeatures().stream()
-                .filter(featureDTO -> "Cantidad".equalsIgnoreCase(featureDTO.getName()))
-                .findFirst();
-
-        int availableQuantity = quantityFeature.map(featureDTO -> Integer.parseInt(featureDTO.getValue())).orElse(1);
-        resource.setAvailableQuantity(availableQuantity);
-
-        // Guardar el recurso primero para obtener el ID generado
+        // Save resource first to get the generated ID
         final Resource savedResource = resourceRepository.save(resource);
 
         List<ResourceFeatures> resourceFeatures = resourceDTO.getFeatures().stream().map(featureDTO -> {
             Feature feature = featureRepository.findById(featureDTO.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Característica no encontrada"));
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid feature ID"));
 
             ResourceFeatures resourceFeature = new ResourceFeatures();
             resourceFeature.setResource(savedResource);
@@ -68,7 +70,7 @@ public class ResourceService {
 
         savedResource.setFeatures(resourceFeatures);
 
-        // Guardar las características después de establecer los IDs de recurso y característica
+        // Save the features after setting the resource and feature IDs
         resourceRepository.save(savedResource);
     }
 
@@ -83,6 +85,7 @@ public class ResourceService {
             dto.setTypeName(resource.getType().getName());
             dto.setServiceUnitName(resource.getType().getServiceUnit().getName());
             dto.setStatus(resource.getStatus().toString());
+            dto.setAvailableQuantity(resource.getAvailableQuantity());
             return dto;
         }).collect(Collectors.toList());
     }

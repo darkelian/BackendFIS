@@ -36,6 +36,9 @@ public class Resource {
     @Column(name = "available_quantity")
     private int availableQuantity;
 
+    @Column(nullable = false)
+    private int totalQuantity;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResourceStatus status;
@@ -46,4 +49,16 @@ public class Resource {
 
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResourceFeatures> features;
+
+    public void decrementAvailableQuantity() {
+        if (this.availableQuantity > 0) {
+            this.availableQuantity--;
+        }
+    }
+
+    public void incrementAvailableQuantity() {
+        if (this.availableQuantity < this.totalQuantity) {
+            this.availableQuantity++;
+        }
+    }
 }
