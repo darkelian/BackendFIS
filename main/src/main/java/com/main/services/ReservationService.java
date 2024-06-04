@@ -124,4 +124,21 @@ public class ReservationService {
             return response;
         }).collect(Collectors.toList());
     }
+
+
+    // Consultar el recurso más reservado por un estudiante
+    @Transactional
+    public String getMostReservedResource(String username) {
+        Student student = studentRepository.findByCodeStudent(Long.valueOf(username));
+        if (student == null) {
+            throw new ResourceNotFoundException("Estudiante no encontrado");
+        }
+        List<Reservation> reservations = reservationRepository.findByStudent(student);
+        if (reservations.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron reservaciones");
+        }
+        return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
+                .entrySet().stream().max((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue())).get()
+                .getKey().getName();
+    }
 }

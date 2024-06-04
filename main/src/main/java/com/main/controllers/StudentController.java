@@ -36,4 +36,12 @@ public class StudentController {
                 .ok(new StandardResponseDTO().fullSuccess(reservationService.getReservationsByStudent(username)));
     }
 
+    @GetMapping("/reservation/most")
+    @Operation(summary = "Obtener el recurso más reservado por un estudiante")
+    public ResponseEntity<StandardResponseDTO> getMostReservedResource(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        String username = JwtUtil.extractUsernameFromHeader(jwtService, authorizationHeader);
+        return ResponseEntity.ok(new StandardResponseDTO().fullSuccess(reservationService.getMostReservedResource(username)));
+    }
+
 }
