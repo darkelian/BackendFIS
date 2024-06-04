@@ -77,7 +77,7 @@ public class TypeResourceService {
             serviceUnit = employee.getServiceUnit();
             serviceUnitId = serviceUnit.getId();
         } else {
-            throw new IllegalArgumentException("Rol no válido");
+            throw new ResourceNotFoundException("Rol no válido");
         }
 
         List<TypeResource> typeResources = typeResourceRepository.findByServiceUnitId(serviceUnitId);

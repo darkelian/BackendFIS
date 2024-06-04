@@ -47,6 +47,7 @@ public class SecurityConfig {
                                                 .requestMatchers("api/student/**").hasAuthority("STUDENT")
                                                 .requestMatchers("/api/resources/create").hasAuthority("EMPLOYEE")
                                                 .requestMatchers("/api/resources/reserve").hasAuthority("STUDENT")
+                                                .requestMatchers("/api/resources/most/reserved/type").hasAuthority("ADMINISTRATOR")
                                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
                                                                 "/swagger-ui.html", "**")
                                                 .permitAll()

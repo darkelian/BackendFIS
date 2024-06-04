@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.AvailableResourceDTO;
 import com.main.dtos.FeatureDTO;
+import com.main.dtos.MostReservedRequestDTO;
 import com.main.dtos.ReservationRequestDTO;
 import com.main.dtos.ResourceCreationDTO;
 import com.main.dtos.ResourceTypeDto;
@@ -147,6 +148,19 @@ public class ResourceController {
     @Operation(summary = "Obtener el recurso más reservado en el sistema")
     public ResponseEntity<StandardResponseDTO> getMostReservedResource() {
         String mostReservedResource = reservationService.getMostReservedResource();
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("El recurso más reservado es: "
+                + mostReservedResource);
+        return ResponseEntity.ok(response);
+    }
+
+    // Recurso más reservado por un tipo de recurso y rango de fechas
+    @GetMapping("/most/reserved/type")
+    @Tag(name = "Administrador")
+    @Operation(summary = "Obtener el recurso más reservado por un tipo de recurso y rango de fechas")
+    public ResponseEntity<StandardResponseDTO> getMostReservedResourceByTypeAndDateRange(
+            @RequestBody MostReservedRequestDTO request) {
+        String mostReservedResource = reservationService.getMostReservedResourceByTypeAndDateRange(request.getStartDate(), request.getEndDate(),
+                request.getResourceName());
         StandardResponseDTO response = new StandardResponseDTO().fullSuccess("El recurso más reservado es: "
                 + mostReservedResource);
         return ResponseEntity.ok(response);

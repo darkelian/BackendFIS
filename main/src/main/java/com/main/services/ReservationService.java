@@ -1,7 +1,9 @@
 package com.main.services;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -150,6 +152,25 @@ public class ReservationService {
         }
         return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
                 .entrySet().stream().max((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue())).get()
+                .getKey().getName();
+    }
+
+    // Consultar el recurso más reservado por un tipo de recurso y rango de fechas
+    // En tu servicio
+    @Transactional
+    public String getMostReservedResourceByTypeAndDateRange(String startDateStr, String endDateStr,
+            String resourceType) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        List<Reservation> reservations = reservationRepository.findByResourceTypeAndDateBetween(resourceType, startDate,
+                endDate);
+        if (reservations.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron reservaciones");
+        }
+        return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue()).get()
                 .getKey().getName();
     }
 }
