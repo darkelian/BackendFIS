@@ -231,7 +231,7 @@ public class ReservationService {
         }
         resourceRepository.save(resource);
 
-        reservation.setStatus("DEVUELTO");
+        reservation.setStatus("DISPONIBLE");
         reservationRepository.save(reservation);
     }
 
@@ -254,5 +254,28 @@ public class ReservationService {
         dto.setResourceName(reservation.getResource().getName());
         dto.setStudentName(reservation.getStudent().getFirstName() + " " + reservation.getStudent().getFirstLastName());
         return dto;
+    }
+
+    @Transactional
+    public String getMostLoanedResourceByTypeAndDateRange(String startDateStr, String endDateStr,
+            String resourceType) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        List<Reservation> loans = reservationRepository.findByResourceTypeAndDateBetweenAndStatus(resourceType, startDate,
+                endDate, "PRESTADO");
+        if (loans.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron préstamos");
+        }
+
+        return loans.stream()
+                .collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getKey()
+                .getName();
     }
 }

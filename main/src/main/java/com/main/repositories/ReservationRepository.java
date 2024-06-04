@@ -24,4 +24,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     // Nueva consulta para buscar reservaciones por empleado
     List<Reservation> findByEmployeeId(Long employeeId);
+
+    @Query("SELECT r FROM Reservation r WHERE r.resource.type.name = :resourceType AND r.date BETWEEN :startDate AND :endDate AND r.status = :status")
+    List<Reservation> findByResourceTypeAndDateBetweenAndStatus(
+            @Param("resourceType") String resourceType,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("status") String status);
 }

@@ -200,4 +200,16 @@ public class ResourceController {
         List<EmployeeReservationResponseDTO> reservations = reservationService.getReservationsByEmployee(username);
         return ResponseEntity.ok(new StandardResponseDTO().fullSuccess(reservations));
     }
+
+    // Consultar los recursos más prestados
+    @Tag(name = "Administrador")
+    @Operation(summary = "Obtener los recursos más prestados")
+    @GetMapping("/most/loaned/type")
+    public ResponseEntity<StandardResponseDTO> getMostLoanedResourceByTypeAndDateRange(@RequestBody MostReservedRequestDTO request) {
+        String mostLoanedResource = reservationService.getMostLoanedResourceByTypeAndDateRange(
+                request.getStartDate(), request.getEndDate(),
+                request.getResourceName());
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("El recurso más prestado es: " + mostLoanedResource);
+        return ResponseEntity.ok(response);
+    }
 }

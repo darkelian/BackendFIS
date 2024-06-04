@@ -48,6 +48,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/resources/create").hasAuthority("EMPLOYEE")
                                                 .requestMatchers("/api/resources/reserve").hasAuthority("STUDENT")
                                                 .requestMatchers("/api/resources/most/reserved/type").hasAuthority("ADMINISTRATOR")
+                                                .requestMatchers("/api/resources/most/loaned/type").hasAuthority("ADMINISTRATOR")
                                                 .requestMatchers("/api/resources/borrowed").hasAuthority("EMPLOYEE")
                                                 .requestMatchers( "/api/resources/employee").hasAuthority("EMPLOYEE")
                                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
