@@ -140,4 +140,15 @@ public class ResourceController {
                 .fullSuccess("Recurso " + reserve + " reservado exitosamente");
         return ResponseEntity.ok(response);
     }
+
+    // Recurso más reservado en el sistema
+    @GetMapping("/most/reserved")
+    @Tag(name = "Empleados")
+    @Operation(summary = "Obtener el recurso más reservado en el sistema")
+    public ResponseEntity<StandardResponseDTO> getMostReservedResource() {
+        String mostReservedResource = reservationService.getMostReservedResource();
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("El recurso más reservado es: "
+                + mostReservedResource);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -119,12 +119,11 @@ public class ReservationService {
                     + reservation.getEmployee().getFirstLastName() + " " + reservation.getEmployee().getMiddleName()
                     + " " + reservation.getEmployee().getMiddleLastName());
             response.setStudentName(reservation.getStudent().getFirstName() + " "
-            + reservation.getStudent().getFirstLastName() + " " + reservation.getStudent().getMiddleName()
-            + " " + reservation.getStudent().getMiddleLastName());
+                    + reservation.getStudent().getFirstLastName() + " " + reservation.getStudent().getMiddleName()
+                    + " " + reservation.getStudent().getMiddleLastName());
             return response;
         }).collect(Collectors.toList());
     }
-
 
     // Consultar el recurso más reservado por un estudiante
     @Transactional
@@ -134,6 +133,18 @@ public class ReservationService {
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
         List<Reservation> reservations = reservationRepository.findByStudent(student);
+        if (reservations.isEmpty()) {
+            throw new ResourceNotFoundException("No se encontraron reservaciones");
+        }
+        return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
+                .entrySet().stream().max((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue())).get()
+                .getKey().getName();
+    }
+
+    // Consultar el recurso más reservado en el sistema
+    @Transactional
+    public String getMostReservedResource() {
+        List<Reservation> reservations = reservationRepository.findAll();
         if (reservations.isEmpty()) {
             throw new ResourceNotFoundException("No se encontraron reservaciones");
         }
