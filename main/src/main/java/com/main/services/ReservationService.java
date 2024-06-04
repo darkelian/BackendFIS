@@ -49,6 +49,10 @@ public class ReservationService {
             throw new DataIntegrityViolationException("El recurso no está disponible en el rango horario solicitado");
         }
 
+        if (resource.getAvailableQuantity() <= 0) {
+            throw new DataIntegrityViolationException("No hay suficiente cantidad del recurso disponible");
+        }
+
         // Asignar un empleado responsable
         Employee employee = findAvailableEmployee(resource);
 
@@ -61,6 +65,10 @@ public class ReservationService {
         reservation.setEndTime(request.getEndTime());
         reservation.setStatus("RESERVADO");
         reservationRepository.save(reservation);
+
+        // Decrementar la cantidad disponible del recurso
+        resource.setAvailableQuantity(resource.getAvailableQuantity() - 1);
+        resourceRepository.save(resource);
     }
 
     private Employee findAvailableEmployee(Resource resource) {
@@ -69,5 +77,19 @@ public class ReservationService {
             throw new DataIntegrityViolationException("No hay empleados disponibles para asignar");
         }
         return employees.get(0);
+    }
+
+    @Transactional
+    public void returnResource(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
+
+        reservation.setStatus("DISPONIBLE");
+        reservationRepository.save(reservation);
+
+        // Incrementar la cantidad disponible del recurso
+        Resource resource = reservation.getResource();
+        resource.setAvailableQuantity(resource.getAvailableQuantity() + 1);
+        resourceRepository.save(resource);
     }
 }

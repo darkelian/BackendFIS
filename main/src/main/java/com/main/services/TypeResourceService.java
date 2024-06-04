@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.main.dtos.FeatureDTO;
 import com.main.dtos.ResourceTypeDto;
 import com.main.dtos.ResourceTypeResponseDTO;
+import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.Feature;
 import com.main.models.ServiceUnit;
 import com.main.models.TypeResource;
@@ -45,7 +46,7 @@ public class TypeResourceService {
                     try {
                         dataType = DataType.valueOf(featureDto.getType().toUpperCase());
                     } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Tipo de dato no válido: " + featureDto.getType());
+                        throw new ResourceNotFoundException("Tipo de dato no válido: " + featureDto.getType());
                     }
                     Feature feature = Feature.builder()
                             .name(featureDto.getName())
@@ -66,7 +67,7 @@ public class TypeResourceService {
         ServiceUnit serviceUnit;
         if ("UNIT".equals(rol)) {
             serviceUnit = serviceUnitRepository.findByUsername(username)
-                    .orElseThrow(() -> new IllegalStateException(
+                    .orElseThrow(() -> new ResourceNotFoundException(
                             "No se encontró la unidad de servicio para el usuario proporcionado"));
             serviceUnitId = serviceUnit.getId();
         } else if ("EMPLOYEE".equals(rol)) {
@@ -93,11 +94,11 @@ public class TypeResourceService {
     @Transactional
     public List<FeatureDTO> findResourceTypeFeaturesByName(String username, String name) {
         ServiceUnit serviceUnit = serviceUnitRepository.findByEmployeeUsername(username)
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "No se encontró la unidad de servicio para el empleado proporcionado"));
 
         TypeResource typeResource = typeResourceRepository.findByNameAndServiceUnitId(name, serviceUnit.getId())
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
 
         return featureRepository.findByTypeResourceIdWithResourceFeatures(typeResource.getId())
@@ -110,10 +111,10 @@ public class TypeResourceService {
     public List<FeatureDTO> findResourceTypeFeaturesByUnitAndName(String unitServiceName, String resourceName) {
         ServiceUnit serviceUnit = serviceUnitRepository.findByUsername(unitServiceName)
                 .orElseThrow(
-                        () -> new IllegalStateException("No se encontró la unidad de servicio: " + unitServiceName));
+                        () -> new ResourceNotFoundException("No se encontró la unidad de servicio: " + unitServiceName));
 
         TypeResource typeResource = typeResourceRepository.findByNameAndServiceUnitId(resourceName, serviceUnit.getId())
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
 
         return featureRepository.findByTypeResourceIdWithResourceFeatures(typeResource.getId())

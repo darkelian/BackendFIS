@@ -33,6 +33,9 @@ public class Resource {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(name = "available_quantity")
+    private int availableQuantity;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResourceStatus status;
