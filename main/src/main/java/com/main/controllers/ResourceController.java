@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.AvailableResourceDTO;
+import com.main.dtos.EmployeeReservationResponseDTO;
 import com.main.dtos.FeatureDTO;
 import com.main.dtos.MostReservedRequestDTO;
 import com.main.dtos.ReservationRequestDTO;
@@ -177,5 +178,26 @@ public class ResourceController {
         reservationService.changeReservationToLoan(reservationId);
         StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Reserva cambiada a prestamo");
         return ResponseEntity.ok(response);
+    }
+
+    // Volver una reserva a disponible
+    @PutMapping("/available")
+    @Tag(name = "Empleados")
+    @Operation(summary = "Cambiar el estado de una reserva a disponible")
+    public ResponseEntity<StandardResponseDTO> changeReservationToAvailable(
+            @RequestParam Long reservationId) {
+        reservationService.changeLoanToReturned(reservationId);
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Reserva cambiada a disponible");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/employee")
+    @Tag(name = "Empleados")
+    @Operation(summary = "Obtener las reservaciones asignadas a un empleado")
+    public ResponseEntity<StandardResponseDTO> getReservationsByEmployee(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        String username = JwtUtil.extractUsernameFromHeader(jwtService, authorizationHeader);
+        List<EmployeeReservationResponseDTO> reservations = reservationService.getReservationsByEmployee(username);
+        return ResponseEntity.ok(new StandardResponseDTO().fullSuccess(reservations));
     }
 }

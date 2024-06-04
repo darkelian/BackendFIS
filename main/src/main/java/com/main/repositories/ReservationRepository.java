@@ -14,15 +14,14 @@ import com.main.models.Student;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByResourceAndDate(Resource resource, LocalDate date);
 
-    List<Reservation> findByStudent(Student student);
-
-
-    // Consultar las reservas de un estudiante con un estado específico
     List<Reservation> findByStudentAndStatus(Student student, String status);
 
-    // Consultar las reservas de un recurso de un tipo específico en un rango de
-    // fechas
+    List<Reservation> findByStudent(Student student);
+
     @Query("SELECT r FROM Reservation r WHERE r.resource.type.name = :resourceType AND r.date BETWEEN :startDate AND :endDate")
     List<Reservation> findByResourceTypeAndDateBetween(@Param("resourceType") String resourceType,
             @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    // Nueva consulta para buscar reservaciones por empleado
+    List<Reservation> findByEmployeeId(Long employeeId);
 }

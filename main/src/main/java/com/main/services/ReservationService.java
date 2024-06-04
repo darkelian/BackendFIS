@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.main.dtos.EmployeeReservationResponseDTO;
 import com.main.dtos.ReservationRequestDTO;
 import com.main.dtos.ReservationResponseDTO;
 import com.main.exceptions.ResourceNotFoundException;
@@ -45,22 +46,8 @@ public class ReservationService {
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
 
-        // Validar la disponibilidad del recurso basado en la cantidad solicitada
-        List<Reservation> existingReservations = reservationRepository.findByResourceAndDate(resource,
-                request.getDate());
-        int reservedQuantity = existingReservations.stream()
-                .filter(reservation -> reservation.getStartTime().isBefore(request.getEndTime())
-                        && reservation.getEndTime().isAfter(request.getStartTime()))
-                .mapToInt(Reservation::getQuantity)
-                .sum();
+        validateResourceAvailability(resource, request);
 
-        if (request.getQuantity() > resource.getAvailableQuantity()) {
-            System.out.println("Cantidad disponible" + resource.getAvailableQuantity());
-            System.out.println("Cantidad solicitada" + (reservedQuantity + request.getQuantity()));
-            throw new DataIntegrityViolationException("El recurso no está disponible en la cantidad solicitada");
-        }
-
-        // Asignar un empleado responsable
         Employee employee = findAvailableEmployee(resource);
 
         Reservation reservation = new Reservation();
@@ -75,13 +62,30 @@ public class ReservationService {
         reservation.setReservationDate(LocalDate.now());
         reservationRepository.save(reservation);
 
-        // Decrementar la cantidad disponible del recurso
-        resource.setAvailableQuantity(resource.getAvailableQuantity() - request.getQuantity());
+        updateResourceAvailability(resource, request.getQuantity());
+        return resource.getName();
+    }
+
+    private void validateResourceAvailability(Resource resource, ReservationRequestDTO request) {
+        List<Reservation> existingReservations = reservationRepository.findByResourceAndDate(resource,
+                request.getDate());
+        int reservedQuantity = existingReservations.stream()
+                .filter(reservation -> reservation.getStartTime().isBefore(request.getEndTime())
+                        && reservation.getEndTime().isAfter(request.getStartTime()))
+                .mapToInt(Reservation::getQuantity)
+                .sum();
+
+        if (reservedQuantity + request.getQuantity() > resource.getAvailableQuantity()) {
+            throw new DataIntegrityViolationException("El recurso no está disponible en la cantidad solicitada");
+        }
+    }
+
+    private void updateResourceAvailability(Resource resource, int quantity) {
+        resource.setAvailableQuantity(resource.getAvailableQuantity() - quantity);
         if (resource.getAvailableQuantity() == 0) {
             resource.setStatus(ResourceStatus.RESERVADO);
         }
         resourceRepository.save(resource);
-        return resource.getName();
     }
 
     private Employee findAvailableEmployee(Resource resource) {
@@ -92,7 +96,6 @@ public class ReservationService {
         return employees.get(0);
     }
 
-    // Consultar todas las reservaciones de un estudiante
     @Transactional
     public List<ReservationResponseDTO> getReservationsByStudent(String username) {
         Student student = studentRepository.findByCodeStudent(Long.valueOf(username));
@@ -100,10 +103,10 @@ public class ReservationService {
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
         List<Reservation> reservations = reservationRepository.findByStudentAndStatus(student, "RESERVADO");
-        return convertToReservationsReponse(reservations);
+        return convertToReservationsResponse(reservations);
     }
 
-    public List<ReservationResponseDTO> convertToReservationsReponse(List<Reservation> reservations) {
+    public List<ReservationResponseDTO> convertToReservationsResponse(List<Reservation> reservations) {
         return reservations.stream().map(reservation -> {
             ReservationResponseDTO response = new ReservationResponseDTO();
             response.setId(reservation.getId());
@@ -117,17 +120,20 @@ public class ReservationService {
             response.setResourceId(reservation.getResource().getId());
             response.setStudentId(reservation.getStudent().getId());
             response.setResourceName(reservation.getResource().getName());
-            response.setEmployeeName(reservation.getEmployee().getFirstName() + " "
-                    + reservation.getEmployee().getFirstLastName() + " " + reservation.getEmployee().getMiddleName()
-                    + " " + reservation.getEmployee().getMiddleLastName());
-            response.setStudentName(reservation.getStudent().getFirstName() + " "
-                    + reservation.getStudent().getFirstLastName() + " " + reservation.getStudent().getMiddleName()
-                    + " " + reservation.getStudent().getMiddleLastName());
+            response.setEmployeeName(String.format("%s %s %s %s",
+                    reservation.getEmployee().getFirstName(),
+                    reservation.getEmployee().getFirstLastName(),
+                    reservation.getEmployee().getMiddleName(),
+                    reservation.getEmployee().getMiddleLastName()));
+            response.setStudentName(String.format("%s %s %s %s",
+                    reservation.getStudent().getFirstName(),
+                    reservation.getStudent().getFirstLastName(),
+                    reservation.getStudent().getMiddleName(),
+                    reservation.getStudent().getMiddleLastName()));
             return response;
         }).collect(Collectors.toList());
     }
 
-    // Consultar el recurso más reservado por un estudiante
     @Transactional
     public String getMostReservedResource(String username) {
         Student student = studentRepository.findByCodeStudent(Long.valueOf(username));
@@ -139,11 +145,10 @@ public class ReservationService {
             throw new ResourceNotFoundException("No se encontraron reservaciones");
         }
         return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
-                .entrySet().stream().max((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue())).get()
+                .entrySet().stream().max(Map.Entry.comparingByValue()).get()
                 .getKey().getName();
     }
 
-    // Consultar el recurso más reservado en el sistema
     @Transactional
     public String getMostReservedResource() {
         List<Reservation> reservations = reservationRepository.findAll();
@@ -151,12 +156,10 @@ public class ReservationService {
             throw new ResourceNotFoundException("No se encontraron reservaciones");
         }
         return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
-                .entrySet().stream().max((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue())).get()
+                .entrySet().stream().max(Map.Entry.comparingByValue()).get()
                 .getKey().getName();
     }
 
-    // Consultar el recurso más reservado por un tipo de recurso y rango de fechas
-    // En tu servicio
     @Transactional
     public String getMostReservedResourceByTypeAndDateRange(String startDateStr, String endDateStr,
             String resourceType) {
@@ -169,13 +172,17 @@ public class ReservationService {
         if (reservations.isEmpty()) {
             throw new ResourceNotFoundException("No se encontraron reservaciones");
         }
-        return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
-                .entrySet().stream().max(Map.Entry.comparingByValue()).get()
-                .getKey().getName();
+
+        return reservations.stream()
+                .collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getKey()
+                .getName();
     }
 
-
-    // Cambiar el estado de una reservación a un préstamo
     @Transactional
     public void changeReservationToLoan(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -185,5 +192,45 @@ public class ReservationService {
         }
         reservation.setStatus("PRESTADO");
         reservationRepository.save(reservation);
+    }
+
+    @Transactional
+    public void changeLoanToReturned(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservación no encontrada"));
+        if (!reservation.getStatus().equals("PRESTADO")) {
+            throw new DataIntegrityViolationException("La reservación no está en estado de prestado");
+        }
+
+        Resource resource = reservation.getResource();
+        resource.setAvailableQuantity(resource.getAvailableQuantity() + reservation.getQuantity());
+        if (resource.getStatus().equals(ResourceStatus.RESERVADO)) {
+            resource.setStatus(ResourceStatus.DISPONIBLE);
+        }
+        resourceRepository.save(resource);
+
+        reservation.setStatus("DEVUELTO");
+        reservationRepository.save(reservation);
+    }
+
+    @Transactional
+    public List<EmployeeReservationResponseDTO> getReservationsByEmployee(String username) {
+        Employee employee = employeeRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado"));
+
+        List<Reservation> reservations = reservationRepository.findByEmployeeId(employee.getId());
+        return reservations.stream().map(this::convertToEmployeeReservationResponseDTO).collect(Collectors.toList());
+    }
+
+    private EmployeeReservationResponseDTO convertToEmployeeReservationResponseDTO(Reservation reservation) {
+        EmployeeReservationResponseDTO dto = new EmployeeReservationResponseDTO();
+        dto.setId(reservation.getId());
+        dto.setDate(reservation.getDate());
+        dto.setStartTime(reservation.getStartTime());
+        dto.setEndTime(reservation.getEndTime());
+        dto.setStatus(reservation.getStatus());
+        dto.setResourceName(reservation.getResource().getName());
+        dto.setStudentName(reservation.getStudent().getFirstName() + " " + reservation.getStudent().getFirstLastName());
+        return dto;
     }
 }
