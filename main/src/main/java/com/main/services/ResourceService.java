@@ -38,7 +38,7 @@ public class ResourceService {
         Resource resource = new Resource();
         resource.setName(resourceDTO.getName());
         resource.setType(typeResource);
-        resource.setStatus(ResourceStatus.AVAILABLE);
+        resource.setStatus(ResourceStatus.DISPONIBLE);
 
         // Save resource first to get the generated ID
         final Resource savedResource = resourceRepository.save(resource);
@@ -63,7 +63,7 @@ public class ResourceService {
 
     // Obtener los recursos disponibles
     public List<AvailableResourceDTO> getAvailableResources() {
-        List<Resource> availableResources = resourceRepository.findByStatus(ResourceStatus.AVAILABLE);
+        List<Resource> availableResources = resourceRepository.findByStatus(ResourceStatus.DISPONIBLE);
 
         return availableResources.stream().map(resource -> {
             AvailableResourceDTO dto = new AvailableResourceDTO();

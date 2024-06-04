@@ -15,7 +15,7 @@ public interface FeatureRepository extends JpaRepository<Feature, Long> {
     @Query("SELECT f FROM Feature f WHERE f.typeResource.name = :typeName")
     List<Feature> findByTypeName(@Param("typeName") String typeName);
 
-    // Busca todas las características asociadas a un tipo de recurso específico por id
-    @Query("SELECT f FROM Feature f WHERE f.typeResource.id = :typeId")
-    List<Feature> findByTypeResourceId(@Param("typeId") Long typeId);
+    // Buscar todas las características asociadas a un tipo de recurso específico por id
+    @Query("SELECT f FROM Feature f LEFT JOIN FETCH f.resourceFeatures rf WHERE f.typeResource.id = :typeId")
+    List<Feature> findByTypeResourceIdWithResourceFeatures(@Param("typeId") Long typeId);
 }

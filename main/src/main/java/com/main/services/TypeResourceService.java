@@ -30,7 +30,6 @@ public class TypeResourceService {
     private final EmployeeRepository employeeRepository;
     private final FeatureRepository featureRepository;
 
-    // Crear un nuevo tipo de recurso
     @Transactional
     public TypeResource createTypeResource(ResourceTypeDto dto, ServiceUnit unit) {
         TypeResource typeResource = TypeResource.builder()
@@ -61,7 +60,6 @@ public class TypeResourceService {
         return typeResourceRepository.save(savedTypeResource);
     }
 
-    // Obtener el tipo de recurso de una unidad de servicio
     @Transactional
     public List<ResourceTypeResponseDTO> getResourceTypesByServiceUnit(String username, String rol) {
         Long serviceUnitId = null;
@@ -92,7 +90,6 @@ public class TypeResourceService {
         }).collect(Collectors.toList());
     }
 
-    // Obtener las características de un tipo de recurso por nombre para empleados
     @Transactional
     public List<FeatureDTO> findResourceTypeFeaturesByName(String username, String name) {
         ServiceUnit serviceUnit = serviceUnitRepository.findByEmployeeUsername(username)
@@ -103,7 +100,7 @@ public class TypeResourceService {
                 .orElseThrow(() -> new IllegalStateException(
                         "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
 
-        return featureRepository.findByTypeResourceId(typeResource.getId())
+        return featureRepository.findByTypeResourceIdWithResourceFeatures(typeResource.getId())
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -119,7 +116,7 @@ public class TypeResourceService {
                 .orElseThrow(() -> new IllegalStateException(
                         "No se encontró el tipo de recurso con el nombre proporcionado en la unidad de servicio"));
 
-        return featureRepository.findByTypeResourceId(typeResource.getId())
+        return featureRepository.findByTypeResourceIdWithResourceFeatures(typeResource.getId())
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -130,6 +127,16 @@ public class TypeResourceService {
         dto.setId(feature.getId());
         dto.setName(feature.getName());
         dto.setType(feature.getType().name());
+
+        // Obtener el valor de resourceFeatures
+        if (feature.getResourceFeatures() != null && !feature.getResourceFeatures().isEmpty()) {
+            dto.setValue(
+                    feature.getResourceFeatures().iterator().next().getValue()
+            );
+        } else {
+            dto.setValue(null);
+        }
+
         return dto;
     }
 }

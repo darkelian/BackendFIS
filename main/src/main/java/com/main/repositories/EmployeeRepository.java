@@ -25,4 +25,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     // Traer un empleado por su nombre de usuario
     @Query("SELECT e FROM Employee e WHERE e.user.username = :username")
     Optional<Employee> findByUsername(@Param("username") String username);
+
+    // Traer los empleados ordenados por la cantidad de reservas
+    @Query("SELECT e FROM Employee e LEFT JOIN Reservation r ON e.id = r.employee.id GROUP BY e.id ORDER BY COUNT(r.id) ASC")
+    List<Employee> findEmployeesOrderByReservationCount();
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.main.dtos.AvailableResourceDTO;
 import com.main.dtos.FeatureDTO;
+import com.main.dtos.ReservationRequestDTO;
 import com.main.dtos.ResourceCreationDTO;
 import com.main.dtos.ResourceTypeDto;
 import com.main.dtos.ResourceTypeResponseDTO;
@@ -13,6 +14,7 @@ import com.main.dtos.StandardResponseDTO;
 import com.main.models.ServiceUnit;
 import com.main.repositories.UserRepository;
 import com.main.security.JwtService;
+import com.main.services.ReservationService;
 import com.main.services.ResourceService;
 import com.main.services.ScheduleService;
 import com.main.services.TypeResourceService;
@@ -46,6 +48,7 @@ public class ResourceController {
     private final TypeResourceService typeResourceService;
     private final UnitService unitService;
     private final UserRepository userRepository;
+    private final ReservationService reservationService;
 
     @PostMapping("/type")
     @Tag(name = "Unidad de Servicios")
@@ -121,6 +124,19 @@ public class ResourceController {
         response.setSuccess(true);
         response.setData(availableResources);
         response.setCount(availableResources.size());
+        return ResponseEntity.ok(response);
+    }
+
+
+    // Reservar un recurso
+    @PostMapping("/reserve")
+    @Tag(name = "Estudiantes")
+    @Operation(summary = "Reservar un recurso")
+    public ResponseEntity<StandardResponseDTO> reserveResource(@RequestHeader("Authorization") String authorizationHeader,
+            @Validated @RequestBody ReservationRequestDTO request) {
+        String username = JwtUtil.extractUsernameFromHeader(jwtService, authorizationHeader);
+        reservationService.createReservation(request, username);
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Recurso reservado exitosamente");
         return ResponseEntity.ok(response);
     }
 }
