@@ -2,11 +2,13 @@ package com.main.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.main.dtos.ReservationRequestDTO;
+import com.main.dtos.ReservationResponseDTO;
 import com.main.exceptions.ResourceNotFoundException;
 import com.main.models.Reservation;
 import com.main.models.Resource;
@@ -51,8 +53,8 @@ public class ReservationService {
                 .sum();
 
         if (request.getQuantity() > resource.getAvailableQuantity()) {
-            System.out.println("Cantidad disponible"+resource.getAvailableQuantity());
-            System.out.println("Cantidad solicitada"+(reservedQuantity + request.getQuantity()));
+            System.out.println("Cantidad disponible" + resource.getAvailableQuantity());
+            System.out.println("Cantidad solicitada" + (reservedQuantity + request.getQuantity()));
             throw new DataIntegrityViolationException("El recurso no está disponible en la cantidad solicitada");
         }
 
@@ -86,5 +88,40 @@ public class ReservationService {
             throw new DataIntegrityViolationException("No hay empleados disponibles para asignar");
         }
         return employees.get(0);
+    }
+
+    // Consultar todas las reservaciones de un estudiante
+    @Transactional
+    public List<ReservationResponseDTO> getReservationsByStudent(String username) {
+        Student student = studentRepository.findByCodeStudent(Long.valueOf(username));
+        if (student == null) {
+            throw new ResourceNotFoundException("Estudiante no encontrado");
+        }
+        List<Reservation> reservations = reservationRepository.findByStudent(student);
+        return convertToReservationsReponse(reservations);
+    }
+
+    public List<ReservationResponseDTO> convertToReservationsReponse(List<Reservation> reservations) {
+        return reservations.stream().map(reservation -> {
+            ReservationResponseDTO response = new ReservationResponseDTO();
+            response.setId(reservation.getId());
+            response.setDate(reservation.getDate());
+            response.setStartTime(reservation.getStartTime());
+            response.setEndTime(reservation.getEndTime());
+            response.setStatus(reservation.getStatus());
+            response.setReservationDate(reservation.getReservationDate());
+            response.setQuantity(reservation.getQuantity());
+            response.setEmployeeId(reservation.getEmployee().getId());
+            response.setResourceId(reservation.getResource().getId());
+            response.setStudentId(reservation.getStudent().getId());
+            response.setResourceName(reservation.getResource().getName());
+            response.setEmployeeName(reservation.getEmployee().getFirstName() + " "
+                    + reservation.getEmployee().getFirstLastName() + " " + reservation.getEmployee().getMiddleName()
+                    + " " + reservation.getEmployee().getMiddleLastName());
+            response.setStudentName(reservation.getStudent().getFirstName() + " "
+            + reservation.getStudent().getFirstLastName() + " " + reservation.getStudent().getMiddleName()
+            + " " + reservation.getStudent().getMiddleLastName());
+            return response;
+        }).collect(Collectors.toList());
     }
 }

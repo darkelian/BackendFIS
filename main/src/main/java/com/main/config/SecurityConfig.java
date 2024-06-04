@@ -44,6 +44,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.GET, "/api/resources/type")
                                                 .hasAnyAuthority("UNIT", "EMPLOYEE")
                                                 .requestMatchers(HttpMethod.GET, "/api/resources/available").hasAuthority("STUDENT")
+                                                .requestMatchers("api/student/**").hasAuthority("STUDENT")
                                                 .requestMatchers("/api/resources/create").hasAuthority("EMPLOYEE")
                                                 .requestMatchers("/api/resources/reserve").hasAuthority("STUDENT")
                                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
