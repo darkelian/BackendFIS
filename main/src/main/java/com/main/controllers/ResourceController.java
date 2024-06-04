@@ -35,6 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -159,10 +160,22 @@ public class ResourceController {
     @Operation(summary = "Obtener el recurso más reservado por un tipo de recurso y rango de fechas")
     public ResponseEntity<StandardResponseDTO> getMostReservedResourceByTypeAndDateRange(
             @RequestBody MostReservedRequestDTO request) {
-        String mostReservedResource = reservationService.getMostReservedResourceByTypeAndDateRange(request.getStartDate(), request.getEndDate(),
+        String mostReservedResource = reservationService.getMostReservedResourceByTypeAndDateRange(
+                request.getStartDate(), request.getEndDate(),
                 request.getResourceName());
         StandardResponseDTO response = new StandardResponseDTO().fullSuccess("El recurso más reservado es: "
                 + mostReservedResource);
+        return ResponseEntity.ok(response);
+    }
+
+    // Volver una reserva a un prestamo
+    @PutMapping("/borrowed")
+    @Tag(name = "Empleados")
+    @Operation(summary = "Cambiar el estado de una reserva a prestamo")
+    public ResponseEntity<StandardResponseDTO> changeReservationToBorrowed(
+            @RequestParam Long reservationId) {
+        reservationService.changeReservationToLoan(reservationId);
+        StandardResponseDTO response = new StandardResponseDTO().fullSuccess("Reserva cambiada a prestamo");
         return ResponseEntity.ok(response);
     }
 }

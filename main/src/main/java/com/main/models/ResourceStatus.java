@@ -4,5 +4,6 @@ public enum ResourceStatus {
     DISPONIBLE,
     RESERVADO,
     NO_DISPONIBLE,
-    MANTENIMIENTO
+    MANTENIMIENTO,
+    PRESTADO
 }

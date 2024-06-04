@@ -99,7 +99,7 @@ public class ReservationService {
         if (student == null) {
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
-        List<Reservation> reservations = reservationRepository.findByStudent(student);
+        List<Reservation> reservations = reservationRepository.findByStudentAndStatus(student, "RESERVADO");
         return convertToReservationsReponse(reservations);
     }
 
@@ -172,5 +172,18 @@ public class ReservationService {
         return reservations.stream().collect(Collectors.groupingBy(Reservation::getResource, Collectors.counting()))
                 .entrySet().stream().max(Map.Entry.comparingByValue()).get()
                 .getKey().getName();
+    }
+
+
+    // Cambiar el estado de una reservación a un préstamo
+    @Transactional
+    public void changeReservationToLoan(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservación no encontrada"));
+        if (!reservation.getStatus().equals("RESERVADO")) {
+            throw new DataIntegrityViolationException("La reservación no está en estado de reservado");
+        }
+        reservation.setStatus("PRESTADO");
+        reservationRepository.save(reservation);
     }
 }

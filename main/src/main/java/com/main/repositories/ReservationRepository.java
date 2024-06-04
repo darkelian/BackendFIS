@@ -16,6 +16,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findByStudent(Student student);
 
+
+    // Consultar las reservas de un estudiante con un estado específico
+    List<Reservation> findByStudentAndStatus(Student student, String status);
+
     // Consultar las reservas de un recurso de un tipo específico en un rango de
     // fechas
     @Query("SELECT r FROM Reservation r WHERE r.resource.type.name = :resourceType AND r.date BETWEEN :startDate AND :endDate")
