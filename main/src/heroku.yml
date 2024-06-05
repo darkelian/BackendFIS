@@ -1,0 +1,6 @@
+build:
+  docker:
+    web: Dockerfile
+
+run:
+  web: java -jar /java-app.jar --spring.profiles.active=front -Dserver.port=$PORT
