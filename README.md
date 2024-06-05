@@ -14,7 +14,7 @@ Proyecto con énfasis en realizar una plataforma para permitir la administració
 
 ![Version](https://img.shields.io/badge/version-1.8.9-blue)
 
-![Demo](https://github.com/darkelian/Tendencias/blob/main/Assets/Images/ui/Menu.png)
+![Demo](https://github.com/darkelian/BackendFIS/blob/main/main/resources/img/image.png)
 
 ## Pre-requisitos
 
