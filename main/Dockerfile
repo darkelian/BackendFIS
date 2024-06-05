@@ -10,12 +10,18 @@
 #WORKDIR /app
 #COPY --from=build /app/target/main-1.0.2-Integraservicio.jar java-app.jar
 #ENTRYPOINT ["java", "-jar", "java-app.jar", "--spring.profiles.active=prod"]
+# Utiliza una imagen base adecuada
 FROM openjdk:17-jdk-slim
 
+# Establece el directorio de trabajo
 WORKDIR /app
 
+# Copia el archivo JAR al contenedor
 COPY target/main-1.0.2-Integraservicio.jar java-app.jar
 
+# Expone el puerto 8080
 EXPOSE 8080
 
-CMD ["java", "-jar", "/java-app.jar", "--spring.profiles.active=front", "-Dserver.port=$PORT"]
+# Comando para ejecutar la aplicación
+CMD ["java", "-jar", "/app/java-app.jar", "--spring.profiles.active=dev", "-Dserver.port=$PORT"]
+
