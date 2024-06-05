@@ -50,3 +50,8 @@ Ejecuta `./mvnw clean install` para compilar y empaquetar la aplicación, omitie
 
 Puedes acceder a la documentación en `http://[my domain]/swagger-ui/index.html#/` una vez que el servidor esté en ejecución.
 <p align="center"><img src="https://github.com/darkelian/BackendFIS/blob/main/Github/resources/img/image1.png"/></p>
+
+## Docs
+
+[Docs architecture](https://github.com/darkelian/BackendFIS/blob/main/Github/resources/docs/Documento%20Arquitectural.pdf)
+
